@@ -253,7 +253,7 @@ parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('filter','baseline',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 parfor cnt = 1:size(subjects,2)
-    SD_Preprocessing_mainfunction('merge','filter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+    SD_Preprocessing_mainfunction('merge_recoded','filter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('sort','merge',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);

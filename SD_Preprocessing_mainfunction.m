@@ -1141,6 +1141,59 @@ switch step
         
         fprintf('\n\nData merged!\n\n');
         
+        
+    case 'merge_recoded' % merge data with conditionname appended
+        
+        % parameters for SPM function
+        S.recode = 'addfilename';
+        
+        for s=1:size(subjects,1)
+            
+            fprintf([ '\n\nCurrent subject = ' subjects '...\n\n' ]);
+            
+            % change to input directory
+            filePath = [pathstem subjects];
+            cd(filePath);
+            
+            % search for input files
+            files = dir(prevStep);
+            
+            % set input files for merging (note: spm_eeg_merge requires file
+            % names as a character array)
+            flag = 0;
+            mergePrimary = repmat(' ',1,50); % this is to ensure that the first file in list has the sensor locations etc. (because otherwise that information won't be retained in merged file)
+            mergeSecondary = repmat(' ',length(files)-1,50);
+            count = 0;
+            for f=1:length(files)
+                
+                fprintf([ '\n\nProcessing ' files(f).name '...\n\n' ]);
+                
+                D = spm_eeg_load(files(f).name);
+                if ~isempty(D.fiducials) && flag == 0
+                    flag = 1;
+                    mergePrimary(1,1:length(files(f).name)) = files(f).name;
+                else
+                    count = count + 1;
+                    mergeSecondary(count,1:length(files(f).name)) = files(f).name;
+                end
+                
+            end
+            
+            if flag
+                files2merge = [mergePrimary; mergeSecondary];
+            else
+                files2merge = mergeSecondary;
+            end
+            
+            S.D = files2merge;
+            
+            % main process
+            spm_eeg_merge(S);
+            
+        end % subjects
+        
+        fprintf('\n\nData merged!\n\n');
+        
     case 'ICA_artifacts_copy'
         filePath = [runtodo subjects];
         cd(filePath);

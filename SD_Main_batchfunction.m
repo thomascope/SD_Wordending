@@ -257,6 +257,7 @@ p.blocksout = blocksout;
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('merge_recoded','filter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
+p.conditions = postmerge_conditions;
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('sort','merge',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end

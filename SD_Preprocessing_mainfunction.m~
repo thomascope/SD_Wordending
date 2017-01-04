@@ -1213,30 +1213,31 @@ switch step
                     
                     % main process
                     spm_eeg_merge(S);
-
+                    
+                    pause
+                    
                     filetomove = dir('temp*.mat');
                     clear S
                     S.D = filetomove.name;
                     S.outfile = strrep(these_files(1).name,'_1','');
                     spm_eeg_copy(S)
-                    new_files{i} = S.outfile;
+                    new_files
         
                     eval(['delete ' filetomove.name])
                     eval(['delete ' filetomove.name(1:end-4) '.dat'])
                     
                 end
-                files = struct('name',new_files);
             end
+            
+            
             
             %Then take single runs and merge with filename prepended
             
             % parameters for SPM function
             S.recode = 'addfilename';
-            flag = 0;
-            mergePrimary = repmat(' ',1,50); % this is to ensure that the first file in list has the sensor locations etc. (because otherwise that information won't be retained in merged file)
-            mergeSecondary = repmat(' ',length(files)-1,50);
-            count = 0;
-        
+            
+            
+            
             for f=1:length(files)
                 
                 fprintf([ '\n\nProcessing ' files(f).name '...\n\n' ]);

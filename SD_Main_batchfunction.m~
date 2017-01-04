@@ -90,7 +90,7 @@ p.preImageMask = -100; % pre image time (ms)
 p.postImageMask = 900; % post image time (ms)
 
 % time windows over which to average for 'first-level' contrasts (ms)
-p.windows = [50,70;140 180;240 280];
+p.windows = [50,70;140 180], [240 280];
 
 % set groups to input
 p.group = group;
@@ -252,8 +252,6 @@ end
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('filter','baseline',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
-p.filestring_length = 4; %Specify that filenames are the first 4 unique letters and anything after this denotes a repeat (e.g. tray vs tray_1)
-p.blocksout = blocksout;
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('merge_recoded','filter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end

@@ -25,7 +25,9 @@
 %% Set up global variables
 
 SD_subjects_and_parameters; 
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/final_ICA_tf/';
+pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016_tf/';
+source_directory = '/imaging/tc02/SD_Wordending/preprocess/2016/';
+
 
 %% Specify preprocessing parameters
 
@@ -90,7 +92,7 @@ p.preImageMask = -100; % pre image time (ms)
 p.postImageMask = 950; % post image time (ms)
 
 % time windows over which to average for 'first-level' contrasts (ms)
-p.windows = [90 130; 180 240; 270 420; 450 700; 750 900];
+p.windows = [50,70;140 180;240 280];
 
 % set groups to input
 p.group = group;
@@ -113,135 +115,9 @@ p.tf.subsample = 5; %subsample by a factor of 5 - mainly to save disk space and 
 % note: should high-pass filter or baseline-correct before lowpass fitering
 % to avoid ringing artefacts
 
-% open up a parallel computing pool of appropriate size
-% You should pilot one subject and see how much memory is required. This
-% currently asks for 4Gb per run
-
-allrunsarray = [];
-for i = 1:length(blocksin)
-    for j = 1:length(blocksin{i})
-        allrunsarray(end+1,:) = [i,j];
-    end
-end
-
-if size(allrunsarray,1) > 96
-    workersrequested = 96;
-    fprintf([ '\n\nUnable to ask for a worker per run; asking for 96 instead\n\n' ]);
-else
-    workersrequested = size(allrunsarray,1);
-end
-
-memoryperworker = 4;
-if memoryperworker*workersrequested >= 192 %I think you can't ask for more than this - it doesn't seem to work at time of testing anyway
-    memoryrequired = '192'; %NB: This must be a string, not an int!!!
-    fprintf([ '\n\nUnable to ask for as much RAM per worker as specified due to cluster limits, asking for 192Gb in total instead\n\n' ]);
-else
-    memoryrequired = num2str(memoryperworker*workersrequested);
-end
+memoryrequired = num2str(8*size(subjects,2));
 
 try
-    currentdr = pwd;
-    cd('/group/language/data/thomascope/vespa/SPM12version/')
-    workerpool = cbupool(workersrequested);
-    workerpool.ResourceTemplate=['-l nodes=^N^,mem=' memoryrequired 'GB,walltime=168:00:00'];
-    matlabpool(workerpool)
-    cd(currentdr)
-catch
-    try
-        cd('/group/language/data/thomascope/vespa/SPM12version/')
-        matlabpool 'close'
-        workerpool = cbupool(workersrequested);
-        workerpool.ResourceTemplate=['-l nodes=^N^,mem=' memoryrequired 'GB,walltime=168:00:00'];
-        matlabpool(workerpool)
-        cd(currentdr)
-    catch
-        try
-            cd('/group/language/data/thomascope/vespa/SPM12version/')
-            workerpool = cbupool(workersrequested);
-            matlabpool(workerpool)
-            cd(currentdr)
-        catch
-            cd(currentdr)
-            fprintf([ '\n\nUnable to open up a cluster worker pool - opening a local cluster instead' ]);
-            matlabpool(12)
-        end
-    end
-end
-
-%Preprocessing pipeline below. This should be fully modular and intuitive.
-%You will need to appropriately change the search terms at the start of the
-%mainfunction to look for your dataname. If you change the order, these
-%might need editing
-
-%The mainfunction is called with the arguments
-%SD_Preprocessing_mainfunction(nextstep, previousstep, p, pathstem, maxfilteredpathstem, subjects{cnt}, cnt[, dates, blocksin, blocksout, rawpathstem, badeeg])
-% previousstep can be specified using a name in the switch-case section of
-% the mainfunction, or by entering a text searchstring (examples of each
-% are below).
-
-% Any functions present in the mainfunction and not listed below have not
-% been optimised for SPM12 so will need some debugging before they will
-% work.
-
-parfor cnt = 1:size(subjects,2)
-    try
-    mainfunction_maxfilter(cnt, subjects, blocksin, blocksout, rawpathstem, pathstem, dates, badchannels)
-    catch
-    end
-end
-p.dontrepeat = 1;
-todoarray = allrunsarray;
-todocomplete = zeros(1,size(todoarray,1));
-parfor todonumber = 1:size(todoarray,1)
-   cnt = todoarray(todonumber,1);
-   runtodo = todoarray(todonumber,2);
-   
-   %SD_Preprocessing_mainfunction('definetrials','maxfilter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
-   %Defining trials does not seem to work on .fif files in SPM12 for some reason. Perhaps the function names have changed Will
-   %need to use SPM8 version for this or define after conversion.   
-   try
-   SD_Preprocessing_mainfunction('convert','maxfilter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt,dates,blocksin,blocksout,rawpathstem, badeeg, {}, runtodo)
-   todocomplete(todonumber) = 1
-   catch
-   end
-end
-
-parfor cnt = 1:size(subjects,2)    
-    SD_Preprocessing_mainfunction('definetrials_tec','maxfilter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);    
-end
-
-todoarray = allrunsarray;
-todocomplete = zeros(1,size(todoarray,1));
-parfor todonumber = 1:size(todoarray,1)
-   cnt = todoarray(todonumber,1);
-   runtodo = todoarray(todonumber,2);
-   try
-       SD_Preprocessing_mainfunction('ICA_artifacts','convert',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt,dates,blocksin,blocksout,rawpathstem, badeeg, badchannels, runtodo)
-       todocomplete(todonumber) = 1
-       fprintf('\n\nICA complete for subject number %d, run number %d\n\n',todoarray(todonumber,1), todoarray(todonumber,2));
-   catch
-       todocomplete(todonumber) = 0;
-       fprintf('\n\nICA failed for subject number %d, run number %d\n\n',todoarray(todonumber,1), todoarray(todonumber,2));
-   end
-end
-
-% The first time you run through you should put a breakpoint on pause to check
-% that the ICA worked correctly by inspecting todocomplete. The main
-% reason for failure is if there are too many missing EEG electrodes for
-% ADJUST to work. If this happens, then you can set the code to
-% automatically continue without touching the EEG using a try - catch
-% statement, or get it to omit EEG for specific subjects (example in the mainfunction) or try to fix it.
-
-% pause
-
-% This next bit is not yet fully parallelised (doesn't seem necessary
-% because it doesn't take so long), so re-open a smaller matlab pool with
-% one worker per subject to reduce occupation of the cluster
-
-memoryrequired = num2str(4*size(subjects,1));
-
-try
-    matlabpool 'close'
     workerpool = cbupool(size(subjects,2));
     workerpool.ResourceTemplate=['-l nodes=^N^,mem=' memoryrequired 'GB,walltime=48:00:00'];
     matlabpool(workerpool)
@@ -249,9 +125,11 @@ catch
     fprintf([ '\n\nUnable to open up a cluster worker pool - opening a local cluster instead' ]);
     matlabpool(12)
 end
-
 parfor cnt = 1:size(subjects,2)
-    SD_Preprocessing_mainfunction('downsample','ICA_artifacts',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+    Preprocessing_mainfunction('ICA_artifacts_copy','ICA_artifacts',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt,dates,blocksin,blocksout,rawpathstem, badeeg, badchannels, source_directory)
+end
+parfor cnt = 1:size(subjects,2)
+    SD_Preprocessing_mainfunction('downsample','ICA_artifacts_copy',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 % parfor cnt = 1:size(subjects,2)
 %     SD_Preprocessing_mainfunction('rereference','downsample',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
@@ -273,9 +151,12 @@ end
 parfor cnt = 1:size(subjects,2)
    SD_Preprocessing_mainfunction('epoch','secondfilter',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt,dates,blocksin,blocksout,rawpathstem, badeeg);
 end
+p.filestring_length = 4; %Specify that filenames are the first 4 unique letters and anything after this denotes a repeat (e.g. tray vs tray_1)
+p.blocksout = blocksout;
 parfor cnt = 1:size(subjects,2)
-    SD_Preprocessing_mainfunction('merge','epoch',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+    SD_Preprocessing_mainfunction('merge_recoded','epoch',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
+p.conditions = postmerge_conditions_tf;
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('sort','merge',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
@@ -289,20 +170,27 @@ parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('combineplanar','fmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 
-%Preprocessing_mainfunction('grand_average','pfmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects);
+Preprocessing_mainfunction('grand_average','pfmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects);
 % This saves the grand unweighted average file for each group in the folder of the
 % first member of that group. For convenience, you might want to move them
 % to separate folders.
 
+
+hasallconditions = zeros(1,size(subjects,2));
 parfor cnt = 1:size(subjects,2)    
-   SD_Preprocessing_mainfunction('weight','pfmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+    try %Some participants didn't do all conditions, so can't be weighted with pre-specified contrasts.
+   SD_Preprocessing_mainfunction('weight','pfmcfbdeMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+   hasallconditions(cnt) = 1;
+    catch
+    end
 end
 
-%Preprocessing_mainfunction('grand_average','wpfmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects);
+Preprocessing_mainfunction('grand_average','wpfmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects(logical(hasallconditions)));
 % This saves the grand weighted average file for each group in the folder of the
 % first member of that group. For convenience, you might want to move them
 % to separate folders.
 parfor cnt = 1:size(subjects,2)
+    warning('off','MATLAB:TriScatteredInterp:DupPtsAvValuesWarnId') %Suppress the warning about duplicate datapoints. This is caused by having two gradiometers at each location. For evoked data, this warning is valid as they should be rms combined, but for induced data it shouldn't make a difference and saves a step.
     SD_Preprocessing_mainfunction('image','fmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 parfor cnt = 1:size(subjects,2)
@@ -338,11 +226,17 @@ parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('TF_rescale','mtf_c*dMrun*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 Preprocessing_mainfunction('grand_average','TF_rescale',p,pathstem, maxfilteredpathstem, subjects);
+hasallconditions = zeros(1,size(subjects,2));
 parfor cnt = 1:size(subjects,2)    
+    try %Some participants didn't do all conditions, so can't be weighted with pre-specified contrasts.
    SD_Preprocessing_mainfunction('weight','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+   hasallconditions(cnt) = 1;
+    catch
+    end
 end
-Preprocessing_mainfunction('grand_average','wrmtf_c*.mat',p,pathstem, maxfilteredpathstem, subjects);
+Preprocessing_mainfunction('grand_average','wrmtf_c*.mat',p,pathstem, maxfilteredpathstem, subjects(logical(hasallconditions)));
 parfor cnt = 1:size(subjects,2)
+    warning('off','MATLAB:TriScatteredInterp:DupPtsAvValuesWarnId') %Suppress the warning about duplicate datapoints. This is caused by having two gradiometers at each location. For evoked data, this warning is valid as they should be rms combined, but for induced data it shouldn't make a difference and saves a step.
     SD_Preprocessing_mainfunction('image','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 parfor cnt = 1:size(subjects,2)
@@ -359,11 +253,56 @@ end
 %Now to do the higher frequencies with multitapers! - If you want to do
 %this, you must copy the merged files, to another folder appended with '_taper' and re-run from
 %the appropriate step above
-
+% 
 pathstem = [pathstem(1:end-1) '_taper/'] ; 
 p.method = 'mtmconvol'; 
 p.freqs = [30:2:90]; 
 p.timeres = 200; 
 p.timestep = 20; 
-p.freqres = 30; %Suggestion from Markus Bauer to use this very broad frequency smoothing. I guess it makes sense if we're expecting large individual differences in gamma frequency
+p.freqres = 10; 
+source_directory = '/imaging/tc02/SD_Wordending/preprocess/2016_tf/';
+
+
+parfor cnt = 1:size(subjects,2)
+    Preprocessing_mainfunction('ICA_artifacts_copy','merge',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt,dates,blocksin,blocksout,rawpathstem, badeeg, badchannels, source_directory)
+end
+parfor cnt = 1:size(subjects,2)
+    SD_Preprocessing_mainfunction('TF','merge',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+parfor cnt = 1:size(subjects,2)
+    SD_Preprocessing_mainfunction('average','TF_power',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+% p.robust = 0; %robust averaging doesn't work for phase data
+% parfor cnt = 1:size(subjects,2)
+%     Preprocessing_mainfunction('average','TF_phase',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+% end
+% p.robust = 1; % just in case we want to do any more averaging later
+%TF_rescale to baseline correct the induced power data only
+parfor cnt = 1:size(subjects,2)
+    SD_Preprocessing_mainfunction('TF_rescale','mtf_c*dMrun*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+SD_Preprocessing_mainfunction('grand_average','TF_rescale',p,pathstem, maxfilteredpathstem, subjects);
+hasallconditions = zeros(1,size(subjects,2));
+parfor cnt = 1:size(subjects,2)    
+    try %Some participants didn't do all conditions, so can't be weighted with pre-specified contrasts.
+   SD_Preprocessing_mainfunction('weight','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+   hasallconditions(cnt) = 1;
+    catch
+    end
+end
+Preprocessing_mainfunction('grand_average','wrmtf_c*.mat',p,pathstem, maxfilteredpathstem, subjects(logical(hasallconditions)));
+parfor cnt = 1:size(subjects,2)
+    warning('off','MATLAB:TriScatteredInterp:DupPtsAvValuesWarnId') %Suppress the warning about duplicate datapoints. This is caused by having two gradiometers at each location. For evoked data, this warning is valid as they should be rms combined, but for induced data it shouldn't make a difference and saves a step.
+    SD_Preprocessing_mainfunction('image','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+parfor cnt = 1:size(subjects,2)
+    % The input for smoothing should be the same as the input used to make
+    % the image files.
+    SD_Preprocessing_mainfunction('smooth','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+for cnt = 1
+    % The input for smoothing should be the same as the input used to make
+    % the image files. Only need to do this for a single subject
+    SD_Preprocessing_mainfunction('mask','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
 

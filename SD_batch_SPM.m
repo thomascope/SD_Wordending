@@ -2,20 +2,27 @@
 
 %SD_subjects_and_parameters; 
 
+hasallpostmerge_conditions = logical([1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     0     0     1     1     1     1]);
+subjectstoinclude = subjects(hasallpostmerge_conditions);
+
+postmerge_conditions_despaced = postmerge_conditions;
+for i = 1:length(postmerge_conditions_despaced)
+    postmerge_conditions_despaced{i}(postmerge_conditions_despaced{i}==' ') = '';
+end
 % 
-% conditions = {'Mismatch_4' 'Match_4' 'Mismatch_8' 'Match_8' 'Mismatch_16' 'Match_16'};
+% postmerge_conditions = {'Mismatch_4' 'Match_4' 'Mismatch_8' 'Match_8' 'Mismatch_16' 'Match_16'};
 % 
-% contrast_labels = {'Sum all conditions';'Match-MisMatch'; 'Clear minus Unclear'; 'Gradient difference M-MM'};
+% contrast_labels = {'Sum all postmerge_conditions';'Match-MisMatch'; 'Clear minus Unclear'; 'Gradient difference M-MM'};
 % contrast_weights = [1, 1, 1, 1, 1, 1; -1, -1, 1, -1, 1, 1; -1, -1, 0, 0, 1, 1; -1, 1, 0, 0, 1, -1];    
 %% Configure
 
-filetype = 'fmcfbdeMrun_play_raw_ssst';
-filetypesplit = 'fmcfbdeMrun_play_1_raw_ssst';
-modality = {'MEGMAG' 'MEGPLANAR'};
+filetype = 'PfmcfbdeMrun_play_raw_ssst';
+filetypesplit = 'PfmcfbdeMrun_play_1_raw_ssst';
+modality = {'MEGCOMB' 'MEGMAG'};
 imagetype = {'sm_'};
-p.windows = [-100 900; 90 130; 180 240; 270 420; 450 700; 750 900];
+p.windows = [-100 600; -100 900; 50,70; 140 180; 240 280];
 
-outputstem = '/imaging/tc02/SD_Wordending/preprocess/final_ICA/stats';
+outputstem = '/imaging/tc02/SD_Wordending/preprocess/2016/stats_4';
 
 %mskname = '/imaging/local/spm/spm8/apriori/grey.nii'; % specify in modality loop below if multiple modalities are being estimated. Don't specify if not needed
 
@@ -25,93 +32,198 @@ cnt = 0;
 %% Contrasts (Combined SPM for patients/controls)
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Sum all onsets(All)';
-contrasts{cnt}.c =  kron([1 1],[1, 1, 1, 0, 0, 0]);
+contrasts{cnt}.name = 'Sum all standard onsets(All)';
+contrasts{cnt}.c =  kron([1 1],kron([1, 0, 0, 0, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'F';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Pattop Group x Sum all onsets(All)';
-contrasts{cnt}.c =  kron([-1 1],[1, 1, 1, 0, 0, 0]);
+contrasts{cnt}.name = 'Pattop Group x Sum all standard onsets';
+contrasts{cnt}.c =  kron([-1 1],kron([1, 0, 0, 0, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Contop Group x Sum all onsets(All)';
-contrasts{cnt}.c =  kron([1 -1],[0, 0, 0, 1, 1, 1]);
+contrasts{cnt}.name = 'Contop Group x Sum all standard onsets';
+contrasts{cnt}.c =  kron([1 -1],kron([1, 0, 0, 0, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Sum all offsets(All)';
-contrasts{cnt}.c =  kron([1 1],[0, 0, 0, 1, 1, 1]);
+contrasts{cnt}.name = 'Sum all standard ofsets(All)';
+contrasts{cnt}.c =  kron([1 1],kron([0, 0, 0, 1, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'F';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Pattop Group x Sum all offsets(All)';
-contrasts{cnt}.c =  kron([-1 1],[0, 0, 0, 1, 1, 1]);
+contrasts{cnt}.name = 'Pattop Group x Sum all standard offsets';
+contrasts{cnt}.c =  kron([-1 1],kron([0, 0, 0, 1, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Contop Group x Sum all offsets(All)';
-contrasts{cnt}.c =  kron([1 -1],[0, 0, 0, 1, 1, 1]);
+contrasts{cnt}.name = 'Contop Group x Sum all standard offsets';
+contrasts{cnt}.c =  kron([1 -1],kron([0, 0, 0, 1, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
 contrasts{cnt}.name = 'Onset_D-S(All)';
-contrasts{cnt}.c =  kron([1 1],[-1, 0.5, 0.5, 0, 0, 0]);
+contrasts{cnt}.c =  kron([1 1],kron([ -1, 0.5, 0.5, 0, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'F';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Pattop Group x Onset_D-S(All)';
-contrasts{cnt}.c =  kron([-1 1],[-1, 0.5, 0.5, 0, 0, 0]);
+contrasts{cnt}.name = 'Onset_D-S(Controls)';
+contrasts{cnt}.c =  kron([1 0],kron([ -1, 0.5, 0.5, 0, 0, 0],[1,1,1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Onset_D-S(Patients)';
+contrasts{cnt}.c =  kron([0 1],kron([ -1, 0.5, 0.5, 0, 0, 0],[1,1,1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Group x Onset_D-S';
+contrasts{cnt}.c =  kron([-1 1],kron([ -1, 0.5, 0.5, 0, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Contop Group x Onset_D-S(All)';
-contrasts{cnt}.c =  kron([1 -1],[-1, 0.5, 0.5, 0, 0, 0]);
+contrasts{cnt}.name = 'Contop Group x Onset_D-S';
+contrasts{cnt}.c =  kron([1 -1],kron([ -1, 0.5, 0.5, 0, 0, 0],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
 contrasts{cnt}.name = 'Offset_D-S(All)';
-contrasts{cnt}.c =  kron([1 1],[0, 0, 0, -1, 0.5, 0.5]);
+contrasts{cnt}.c =  kron([1 1],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]));
 contrasts{cnt}.type = 'F';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Pattop Group x Offset_D-S(All)';
-contrasts{cnt}.c =  kron([-1 1],[0, 0, 0, -1, 0.5, 0.5]);
-contrasts{cnt}.type = 'T';
-
-cnt = cnt + 1;
-contrasts{cnt}.name = 'Contop Group x Offset_D-S(All)';
-contrasts{cnt}.c =  kron([1 -1],[0, 0, 0, -1, 0.5, 0.5]);
-contrasts{cnt}.type = 'T';
-
-cnt = cnt + 1;
-contrasts{cnt}.name = 'Onset_Dd-Dt(All)';
-contrasts{cnt}.c =  kron([1 1],[0, 1, -1, 0, 0, 0]);
+contrasts{cnt}.name = 'Offset_D-S(Controls)';
+contrasts{cnt}.c =  kron([1 0],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]));
 contrasts{cnt}.type = 'F';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Pattop Group x Onset_Dd-Dt(All)';
-contrasts{cnt}.c =  kron([-1 1],[0, 1, -1, 0, 0, 0]);
+contrasts{cnt}.name = 'Offset_D-S(Patients)';
+contrasts{cnt}.c =  kron([0 1],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Group x Offset_D-S';
+contrasts{cnt}.c =  kron([-1 1],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Contop Group x Onset_Dd-Dt(All)';
-contrasts{cnt}.c =  kron([1 -1],[0, 1, -1, 0, 0, 0]);
+contrasts{cnt}.name = 'Contop Group x Offset_D-S';
+contrasts{cnt}.c =  kron([1 -1],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
 contrasts{cnt}.name = 'Offset_Dd-Dt(All)';
-contrasts{cnt}.c =  kron([1 1],[0, 0, 0, 0, 1, -1]);
+contrasts{cnt}.c =  kron([1 1],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]));
 contrasts{cnt}.type = 'F';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Pattop Group x Offset_Dd-Dt(All)';
-contrasts{cnt}.c =  kron([-1 1],[0, 0, 0, 0, 1, -1]);
+contrasts{cnt}.name = 'Offset_Dd-Dt(Controls)';
+contrasts{cnt}.c =  kron([1 0],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Offset_Dd-Dt(Patients)';
+contrasts{cnt}.c =  kron([0 1],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Group x Offset_Dd-Dt';
+contrasts{cnt}.c =  kron([-1 1],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]));
 contrasts{cnt}.type = 'T';
 
 cnt = cnt + 1;
-contrasts{cnt}.name = 'Contop Group x Offset_Dd-Dt(All)';
-contrasts{cnt}.c =  kron([1 -1],[0, 0, 0, 0, 1, -1]);
+contrasts{cnt}.name = 'Contop Group x Offset_Dd-Dt';
+contrasts{cnt}.c =  kron([1 -1],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Play-Tray(All)';
+contrasts{cnt}.c =  kron([1 1],kron([1, 0, 0, 0, 0, 0],[1,-1,0]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Play-Tray(Controls)';
+contrasts{cnt}.c =  kron([1 0],kron([1, 0, 0, 0, 0, 0],[1,-1,0]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Play-Tray(Patients)';
+contrasts{cnt}.c =  kron([0 1],kron([1, 0, 0, 0, 0, 0],[1,-1,0]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Group x Play-Tray';
+contrasts{cnt}.c =  kron([-1 1],kron([1, 0, 0, 0, 0, 0],[1,-1,0]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Contop Group x Play-Tray';
+contrasts{cnt}.c =  kron([1 -1],kron([1, 0, 0, 0, 0, 0],[1,-1,0]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Play-Qway(All)';
+contrasts{cnt}.c =  kron([1 1],kron([1, 0, 0, 0, 0, 0],[1,0,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Play-Qway(Controls)';
+contrasts{cnt}.c =  kron([1 0],kron([1, 0, 0, 0, 0, 0],[1,0,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Play-Qway(Patients)';
+contrasts{cnt}.c =  kron([0 1],kron([1, 0, 0, 0, 0, 0],[1,0,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Group x Play-Qway';
+contrasts{cnt}.c =  kron([-1 1],kron([1, 0, 0, 0, 0, 0],[1,0,-1]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Contop Group x Play-Qway';
+contrasts{cnt}.c =  kron([1 -1],kron([1, 0, 0, 0, 0, 0],[1,0,-1]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Tray-Qway(All)';
+contrasts{cnt}.c =  kron([1 1],kron([1, 0, 0, 0, 0, 0],[0,1,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Tray-Qway(Controls)';
+contrasts{cnt}.c =  kron([1 0],kron([1, 0, 0, 0, 0, 0],[0,1,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Tray-Qway(Patients)';
+contrasts{cnt}.c =  kron([0 1],kron([1, 0, 0, 0, 0, 0],[0,1,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Group x Tray-Qway';
+contrasts{cnt}.c =  kron([-1 1],kron([1, 0, 0, 0, 0, 0],[0,1,-1]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Contop Group x Tray-Qway';
+contrasts{cnt}.c =  kron([1 -1],kron([1, 0, 0, 0, 0, 0],[0,1,-1]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Three way interaction (group vs word/nonwd vs ending offset)';
+contrasts{cnt}.c =  kron([-1 1],kron([0, 0, 0, -1, 0.5, 0.5],[0.5,0.5,-1]));
+contrasts{cnt}.type = 'F';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Pattop Three way';
+contrasts{cnt}.c =  kron([-1 1],kron([0, 0, 0, -1, 0.5, 0.5],[0.5,0.5,-1]));
+contrasts{cnt}.type = 'T';
+
+cnt = cnt + 1;
+contrasts{cnt}.name = 'Contop Three way';
+contrasts{cnt}.c =  kron([1 -1],kron([0, 0, 0, -1, 0.5, 0.5],[0.5,0.5,-1]));
 contrasts{cnt}.type = 'T';
 
 
@@ -129,13 +241,13 @@ for wind = 1:length(p.windows)
         patients2average = {};
         controls2rejecteeg = {};
         patients2rejecteeg= {};
-        for s=1:size(subjects,2) % for multiple subjects
+        for s=1:size(subjectstoinclude,2) % for multiple subjects
             
-            fprintf([ '\n\nCurrent subject = ' subjects{s} '...\n\n' ]);
+            fprintf([ '\n\nCurrent subject = ' subjectstoinclude{s} '...\n\n' ]);
             
             if group(s) == 1
                 fprintf([ '\nIdentified as a control. \n' ]);
-                controls2average{end+1} = subjects{s};
+                controls2average{end+1} = subjectstoinclude{s};
                 try
                     controls2rejecteeg{end+1} = rejecteeg{s};
                 catch
@@ -144,7 +256,7 @@ for wind = 1:length(p.windows)
                                
             elseif group(s) == 2
                 fprintf([ '\nIdentified as a patient. \n' ]);
-                patients2average{end+1} = subjects{s};
+                patients2average{end+1} = subjectstoinclude{s};
                 try
                 patients2rejecteeg{end+1} = rejecteeg{s};
                 catch
@@ -165,23 +277,23 @@ for wind = 1:length(p.windows)
                 
                 for s=1:length(controls2average) % specify file locations for batch_spm_anova_vES
                     
-                    for c=1:length(conditions)
+                    for c=1:length(postmerge_conditions_despaced)
                         if strcmp(modality{m},'EEG')
                             if controls2rejecteeg{s} == 1
                                 %files{1}{s}{c} = [];
                             else
-                                files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetype '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                                files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                                 if exist(files{1}{s}{c},'file')
                                 else
-                                    files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                                    files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                                 end
                             end
                             
                         else
-                            files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetype '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                            files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                             if exist(files{1}{s}{c},'file')
                             else
-                                files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                                files{1}{s}{c} = strjoin([pathstem controls2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                             end
                         end
                     end
@@ -212,23 +324,23 @@ for wind = 1:length(p.windows)
                 
                 for s=1:length(patients2average) % specify file locations for batch_spm_anova_vES
                     
-                    for c=1:length(conditions)
+                    for c=1:length(postmerge_conditions_despaced)
                         
                         if strcmp(modality{m},'EEG')
                             if patients2rejecteeg{s} == 1
                                 %files{2}{s}{c} = [];
                             else
-                                files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetype '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                                files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                                 if exist(files{2}{s}{c},'file')
                                 else
-                                    files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                                    files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                                 end
                             end
                         else
-                            files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetype '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                            files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                             if exist(files{2}{s}{c},'file')
                             else
-                                files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' conditions{c} '.nii'],'');
+                                files{2}{s}{c} = strjoin([pathstem patients2average{s} '/' modality{m} filetypesplit '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
                             end
                         end
                         
@@ -260,11 +372,11 @@ for wind = 1:length(p.windows)
 %             mkdir(outputfullpath);
 %         end
 %         
-%         for s=1:length(subjects) % specify file locations for batch_spm_anova_vES
+%         for s=1:length(subjectstoinclude) % specify file locations for batch_spm_anova_vES
 %             
-%             for c=1:length(conditions)
+%             for c=1:length(postmerge_conditions_despaced)
 %                 
-%                 files{1}{s}{c} = strjoin([pathstem subjects{s} '/' modality{m} filetype '/' imagetype 'condition_' conditions{c} '.nii'],'');
+%                 files{1}{s}{c} = strjoin([pathstem subjectstoinclude{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
 %                 
 %             end
 %             

@@ -90,7 +90,7 @@ p.preImageMask = -100; % pre image time (ms)
 p.postImageMask = 900; % post image time (ms)
 
 % time windows over which to average for 'first-level' contrasts (ms)
-p.windows = [50,70;140 180;240 280];
+p.windows = [-100 600; 50,70;140 180;240 280];
 
 % set groups to input
 p.group = group;
@@ -276,14 +276,17 @@ SD_Preprocessing_mainfunction('grand_average','pfmcfbdeMr*.mat',p,pathstem, maxf
 % first member of that group. For convenience, you might want to move them
 % to separate folders.
 
+
+hasallconditions = zeros(1,size(subjects,2));
 parfor cnt = 1:size(subjects,2)    
+    try %Some participants didn't do all conditions, so can't be weighted with pre-specified contrasts.
    SD_Preprocessing_mainfunction('weight','pfmcfbdeMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+   hasallconditions(cnt) = 1;
+    catch
+    end
 end
 
-SD_Preprocessing_mainfunction('grand_average','wpfmcfbdeMr*.mat',p,pathstem, maxfilteredpathstem, subjects);
-% This saves the grand weighted average file for each group in the folder of the
-% first member of that group. For convenience, you might want to move them
-% to separate folders.
+SD_Preprocessing_mainfunction('grand_average','wpfmcfbdeMr*.mat',p,pathstem, maxfilteredpathstem, subjects(logical(hasallconditions)));
 
 parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('combineplanar_spm','fmcfbdeMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
@@ -302,6 +305,9 @@ for cnt = 1
     % the image files. Only need to do this for a single subject
     SD_Preprocessing_mainfunction('mask','PfmcfbdeMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end  
+% This saves the grand weighted average file for each group in the folder of the
+% first member of that group. For convenience, you might want to move them
+% to separate folders.
 
 % now move all of the smoothed nifti images into folders marked
 % controls/patients, either manually or with copyniftitofolder.py (you will

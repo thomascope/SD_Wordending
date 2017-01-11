@@ -19,9 +19,9 @@
 function SD_plot_betas_overall(modality,varargin)
 hold on
 
-contrast_labels = {'Sum all onsets';'Sum all offsets'; 'Onset_D-S'; 'Onset_Dd-S'; 'Onset_Dt-S'; 'Onset_Dd-Dt'; 'Offset_D-S'; 'Offset_Dd-S'; 'Offset_Dt-S'; 'Offset_Dd-Dt'};
+contrast_labels = {'Sum all standard onsets';'Sum all D deviant onsets';'Sum all T deviant onsets';'Sum all onsets';'Sum all offsets'; 'Onset_D-S'; 'Onset_Dd-S'; 'Onset_Dt-S'; 'Onset_Dd-Dt'; 'Offset_D-S'; 'Offset_Dd-S'; 'Offset_Dt-S'; 'Offset_Dd-Dt'; 'Play-Tray'; 'Play-Qway'; 'Tray-Qway'};
 
-for this_word = 1:10
+for this_word = 1:16
 
     
     data{1} = spm_eeg_load('/imaging/tc02/SD_Wordending/preprocess/2016/meg08_0252/controls_weighted_grandmean.mat');

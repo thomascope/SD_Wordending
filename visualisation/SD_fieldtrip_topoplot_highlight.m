@@ -66,11 +66,11 @@ if strcmp(modality,'MEGCOMB') || strcmp(modality,'MEGPLANAR')
     end
         
     figure(controlfig)
-    save_string = ['./Significant_peaks/Controls topoplot for planar gradiometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.pdf'];
+    save_string = ['./Significant_peaks/Controls topoplot for planar gradiometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.png'];
     eval(['export_fig ''' save_string ''' -transparent'])
     close(controlfig)
     figure(patientfig)
-    save_string = ['./Significant_peaks/Patients topoplot for planar gradiometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.pdf'];
+    save_string = ['./Significant_peaks/Patients topoplot for planar gradiometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.png'];
     eval(['export_fig ''' save_string ''' -transparent'])
     close(patientfig)
     
@@ -115,11 +115,11 @@ elseif strcmp(modality,'MEGMAG') || strcmp(modality,'MEG')
     end
     
     figure(controlfig)
-    save_string = ['./Significant_peaks/Controls topoplot for magnetometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.pdf'];
+    save_string = ['./Significant_peaks/Controls topoplot for magnetometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.png'];
     eval(['export_fig ''' save_string ''' -transparent'])
     close(controlfig)
     figure(patientfig)
-    save_string = ['./Significant_peaks/Patients topoplot for magnetometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.pdf'];
+    save_string = ['./Significant_peaks/Patients topoplot for magnetometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.png'];
     eval(['export_fig ''' save_string ''' -transparent'])
     close(patientfig)
     
@@ -162,11 +162,11 @@ elseif strcmp(modality,'EEG')
     end
     
     figure(controlfig)
-    save_string = ['./Significant_peaks/Controls topoplot for EEG, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.pdf'];
+    save_string = ['./Significant_peaks/Controls topoplot for EEG, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.png'];
     eval(['export_fig ''' save_string ''' -transparent'])
     close(controlfig)
     figure(patientfig)
-    save_string = ['./Significant_peaks/Patients topoplot for EEG, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.pdf'];
+    save_string = ['./Significant_peaks/Patients topoplot for EEG, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2)) '.png'];
     eval(['export_fig ''' save_string ''' -transparent'])
     close(patientfig)
 end

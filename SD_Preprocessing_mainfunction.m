@@ -1811,7 +1811,7 @@ switch step
         
         fprintf('\n\nData averaged!\n\n');
         
-        case 'resume_average' % average data
+    case 'resume_average' % average data
         
         % parameters for SPM function
         if p.robust == 1;
@@ -2452,6 +2452,167 @@ switch step
         
         fprintf('\n\nData converted to image files!\n\n');
         
+    case 'image_lateralised' % splits left and right sided sensors
+        
+        %warning off MATLAB:TriScatteredInterp:DupPtsAvValuesWarnId % XXX ZZZ Dirty hack to suppress a warning message I don't understand.  Help resquested from SPM list.
+        %This warning was because the planar gradiometers need to be
+        %combined before image formation in evoked data. If you get it,
+        %better to use combine planar function.
+        
+        % parameters for SPM function
+        S.n = 32;
+        S.interpolate_bad = 1;
+        if isfield(p,'tf_freqs_image')
+            S.images.fmt = 'frequency'; % average over frequency for TF data
+            S.images.freqs = p.tf_freqs_image; % frequencies over which to average for TF data
+        elseif isfield(p,'tf_chans_image')
+            S.images.fmt = 'channels'; % average over channels for TF data
+            S.images.region_no = 1; % always set ROI number to 1
+            roi_label = p.tf_roi_image;
+            channel_labels = p.tf_chans_image; % channel names for that ROI over which to average (converted to indices below)
+        end
+        
+        % other parameters
+        if isfield(p, 'BF') && p.BF == 1  %Beamforming source data
+            modality = {'LFP'};
+        else
+            modality = p.mod;
+        end
+
+        
+        for m=1:length(modality) % for multiple modalities
+            
+            fprintf([ '\n\nCurrent imaging modality = ' modality{m} '...\n\n' ]);
+            
+            for s=1:size(subjects,1) % for multiple subjects
+                
+                fprintf([ '\n\nCurrent subject = ' subjects '...\n\n' ]);
+                
+                % change to input directory
+                filePath = [pathstem subjects];
+                cd(filePath);
+                
+                % search for input files
+                files = dir(prevStep);
+                
+                fprintf([ '\n\nProcessing ' files.name '...\n\n' ]);
+                
+                % set input file
+                S.D = [pathstem subjects '/' files.name];
+                
+                % load file (required for subsequent steps)
+                D = spm_eeg_load(S.D);
+                
+                %Specify left and right sided channel indices
+                all_elecs = D.indchantype(modality{m});
+                elec_locs = D.coor2D(all_elecs);
+                elec_xdim = elec_locs(1,:);
+                left_elecs = all_elecs(elec_xdim < 0.49); %Note slight tolerance to exclude midline electrodes from both images.
+                right_elecs = all_elecs(elec_xdim > 0.51);
+                
+                % convert channel names to indices
+                if exist('channel_labels','var')
+                    if strcmp(channel_labels,'all')
+                        S.images.elecs = D.indchantype(S.channels);
+                    else
+                        S.images.elecs = D.indchannel(channel_labels);
+                        if isempty(S.images.elecs)
+                            error('Error: no channels with specified labels found!');
+                        end
+                    end
+                end
+                
+                       
+                if isfield(p, 'BF') && p.BF == 1 %Not yet implemented lateralised
+                   
+                    for bf_src = 1:length(D.chantype)
+                        S.channels = D.chanlabels{bf_src};
+                        S.prefix = [S.channels '/'];
+                        if strcmp(D.transformtype,'time') % time-domain data
+                            S.mode = 'scalp x time';
+                        else % time-frequency data
+                            S.mode = 'time x frequency';
+                        end
+                        spm_eeg_convert2images(S);
+                
+                        
+                    end
+                    
+                    
+                else
+                    for side = 1:2
+                        if side == 1
+                            S.channels = D.chanlabels(left_elecs);
+                            S.prefix = ['left_' modality{m}];
+                        else
+                            S.channels = D.chanlabels(right_elecs);
+                            S.prefix = ['right_' modality{m}];
+                        end
+                        
+                        if strcmp(D.transformtype,'time') % time-domain data
+                            S.mode = 'scalp x time';
+                        else % time-frequency data
+                            S.mode = 'time x frequency';
+                        end
+                        
+                        % main process
+                        spm_eeg_convert2images(S);
+                    end
+                end
+                %                 % move created folder to modality-specific folder
+                %                 if strcmp(D.transformtype,'time') % time-domain data
+                %                     copyfile(strtok(files.name,'.'),S.channels);
+                %                     rmdir(strtok(files.name,'.'),'s');
+                %                 else % time-frequency data
+                %                     if strcmp(S.images.fmt,'frequency') % create images by averging over frequency
+                %                         copyfile(sprintf('F%d_%d_%s',S.images.freqs(1),S.images.freqs(2),strtok(files.name,'.')),S.channels);
+                %                         rmdir(sprintf('F%d_%d_%s',S.images.freqs(1),S.images.freqs(2),strtok(files.name,'.')),'s');
+                %                         folders = dir([S.channels '/type*']);
+                %                         for fl=1:length(folders)
+                %                             filePath = [pathstem subjects '/' modality{m} '/' folders(fl).name];
+                %                             cd(filePath);
+                %                             imagefiles = dir('trial*');
+                %                             for i=1:length(imagefiles)
+                %                                 if strfind(files.name,'tph')
+                %                                     copyfile(imagefiles(i).name,[sprintf('f%d_%d_phase',S.images.freqs(1),S.images.freqs(2)) '_' imagefiles(i).name]);
+                %                                 elseif strfind(files.name,'tf')
+                %                                     copyfile(imagefiles(i).name,[sprintf('f%d_%d_power',S.images.freqs(1),S.images.freqs(2)) '_' imagefiles(i).name]);
+                %                                 end
+                %                                 delete(imagefiles(i).name);
+                %                             end
+                %                         end
+                %                     elseif strcmp(S.images.fmt,'channels') % create images by averaging over channels
+                %                         copyfile(strtok(files.name,'.'),S.channels);
+                %                         rmdir(strtok(files.name,'.'),'s');
+                %                         folders = dir(sprintf('%s/%dROI_TF_trialtype*',S.channels,S.images.region_no));
+                %                         for fl=1:length(folders)
+                %                             ind = strfind(folders(fl).name,'type');
+                %                             newfoldername = folders(fl).name(ind:end);
+                %                             copyfile([S.channels '/' folders(fl).name],[S.channels '/' newfoldername]);
+                %                             rmdir([S.channels '/' folders(fl).name],'s');
+                %                             filePath = [pathstem subjects '/' modality{m}  '/' newfoldername];
+                %                             cd(filePath);
+                %                             if strfind(files.name,'tph')
+                %                                 copyfile('average.img',sprintf('%s_phase.img',roi_label));
+                %                                 copyfile('average.hdr',sprintf('%s_phase.hdr',roi_label));
+                %                             elseif strfind(files.name,'tf')
+                %                                 copyfile('average.img',sprintf('%s_power.img',roi_label));
+                %                                 copyfile('average.hdr',sprintf('%s_power.hdr',roi_label));
+                %                             end
+                %                             delete('average.img');
+                %                             delete('average.hdr');
+                %                             cd('..');
+                %                             cd('..');
+                %                         end
+                %                     end
+                %                 end
+                
+            end
+            
+        end
+        
+        fprintf('\n\nData converted to image files!\n\n');
+        
     case 'smooth'
         
         % parameters for SPM function
@@ -2521,6 +2682,163 @@ switch step
                     spm_imcalc(input_images,['sm_' inputFile],'((i1+eps).*i2)./(i1+eps)',{[],[],0,'float32'}); % For some unknown reason SPM12 has decided to reverse the order of the last two flags. reinsert NaNs for voxels outside space-time volume
                     
                 end
+                
+                %                 if strcmp(modality{m},'Source')
+                %
+                %                     % search for input files
+                %                     files = dir(prevStep);
+                %
+                %                     for f=1:length(files)
+                %
+                %                         fprintf([ '\n\nProcessing ' files(f).name '...\n\n' ]);
+                %
+                %                         % set input file
+                %                         inputFile = files(f).name;
+                %
+                %                         % main process
+                %                         spm_smooth(inputFile,['sm_' inputFile],smooth);
+                %                         input_images = strvcat(inputFile,['sm_' inputFile]);
+                %                         spm_imcalc_ui(input_images,['sm_' inputFile],'((i1+eps).*i2)./(i1+eps)',{[],[],'float32',0}); % reinsert NaNs for voxels outside space-time volume
+                %
+                %                     end
+                %
+                %                 else
+                %
+                %                     folders = dir('type*');
+                %
+                %                     for fd=1:length(folders)
+                %
+                %                         % change to input directory (image file level)
+                %                         filePath = [pathstem subjects '/' modality{m} '/' folders(fd).name];
+                %                         cd(filePath);
+                %
+                %                         % search for input files
+                %                         files = dir(prevStep);
+                %
+                %                         for f=1:length(files)
+                %
+                %                             fprintf([ '\n\nProcessing ' files(f).name '...\n\n' ]);
+                %
+                %                             % set input file
+                %                             inputFile = files(f).name;
+                %
+                %                             % main process
+                %                             spm_smooth(inputFile,['sm_' inputFile],smooth);
+                %                             input_images = strvcat(inputFile,['sm_' inputFile]);
+                %                             spm_imcalc_ui(input_images,['sm_' inputFile],'((i1+eps).*i2)./(i1+eps)',{[],[],'float32',0}); % reinsert NaNs for voxels outside space-time volume
+                %
+                %                         end
+                %
+                %                     end
+                %
+                %                 end
+                end
+            end
+            
+        end
+        
+        fprintf('\n\nImage files smoothed!\n\n');
+        
+    case 'smooth_lateralised'
+        
+        % parameters for SPM function
+        smooth = [p.xSmooth p.ySmooth p.zSmooth];
+        
+        % other parameters
+        if isfield(p, 'BF') && p.BF == 1
+            modality = {'LFP'};
+        else
+            modality = p.mod;
+        end
+        
+        for m=1:length(modality)
+            
+            fprintf([ '\n\nCurrent imaging modality = ' modality{m} '...\n\n' ]);
+            
+            for s=1:size(subjects,1) % for multiple subjects
+                
+                fprintf([ '\n\nCurrent subject = ' subjects '...\n\n' ]);
+                
+                % change to input directory (image folder level)
+                filePath = [pathstem subjects];
+                cd(filePath);
+                foldercomplete = dir(prevStep);
+                
+                if isfield(p, 'BF') && p.BF == 1 %Not yet implemented lateralised
+                    D = spm_eeg_load(foldercomplete.name);
+                    
+                    for bf_src = 1:length(D.chantype)
+                        S.foldername = D.chanlabels{bf_src};
+                        cd([pathstem subjects '/' S.foldername '/' foldercomplete.name(1:end-4)])
+                        files = dir('condition*.nii');
+                        for f=1:length(files)
+                            
+                            fprintf([ '\n\nProcessing ' files(1).name '...\n\n' ]);
+                            
+                            
+                            % set input file
+                            inputFile = files(f).name;
+                            
+                            % main process
+                            spm_smooth(inputFile,['sm_' inputFile],smooth);
+                            input_images = strvcat(inputFile,['sm_' inputFile]);
+                            spm_imcalc(input_images,['sm_' inputFile],'((i1+eps).*i2)./(i1+eps)',{[],[],0,'float32'}); % For some unknown reason SPM12 has decided to reverse the order of the last two flags. reinsert NaNs for voxels outside space-time volume
+                        end
+                        
+                        
+                    end
+                    
+                else
+                
+                for side = 1:2 % First average each side
+                    if side == 1
+                        cd([pathstem subjects '/left_' modality{m} foldercomplete.name(1:end-4)])
+                    else
+                        cd([pathstem subjects '/right_' modality{m} foldercomplete.name(1:end-4)])
+                    end
+                    files = dir('condition*.nii');
+                    
+                    for f=1:length(files)
+                        
+                        fprintf([ '\n\nProcessing ' files(f).name '...\n\n' ]);
+                        
+                        % set input file
+                        inputFile = files(f).name;
+                        
+                        % main process
+                        spm_smooth(inputFile,['sm_' inputFile],smooth);
+                        input_images = strvcat(inputFile,['sm_' inputFile]);
+                        spm_imcalc(input_images,['sm_' inputFile],'((i1+eps).*i2)./(i1+eps)',{[],[],0,'float32'}); % For some unknown reason SPM12 has decided to reverse the order of the last two flags. reinsert NaNs for voxels outside space-time volume
+                        
+                    end
+                end
+                
+                
+                % Then create contrast of left - right
+                
+                for f=1:length(files)
+                    cd([pathstem subjects])
+                    fprintf([ '\n\Contrasting ' files(f).name '...\n\n' ]);
+                    
+                    % set input file
+                    inputFile = files(f).name;
+                    
+                    % subtract left from right
+                    outfpath = [pathstem subjects '/contrast_' modality{m} foldercomplete.name(1:end-4) '/'];
+                    if ~exist(outfpath,'dir')
+                        mkdir(outfpath);
+                    end
+                    outfname = [outfpath, inputFile]
+                    spm_imcalc(strvcat([pathstem subjects '/left_' modality{m} foldercomplete.name(1:end-4) '/' inputFile], [pathstem subjects '/right_' modality{m} foldercomplete.name(1:end-4) '/' inputFile]), outfname, 'i1 - i2');
+                
+                    % smooth contrasted image
+                    cd(outfpath)
+                    spm_smooth(inputFile,['sm_' inputFile],smooth);
+                    input_images = strvcat(inputFile,['sm_' inputFile]);
+                    spm_imcalc(input_images,['sm_' inputFile],'((i1+eps).*i2)./(i1+eps)',{[],[],0,'float32'}); % For some unknown reason SPM12 has decided to reverse the order of the last two flags. reinsert NaNs for voxels outside space-time volume
+                    
+                end
+                
                 
                 %                 if strcmp(modality{m},'Source')
                 %

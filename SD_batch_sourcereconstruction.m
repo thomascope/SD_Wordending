@@ -12,25 +12,48 @@
 %for val = [1,5,6,7,2,3]
 %for val = [5]
 addpath(pwd);
-for vprime = [1,5]
+%for vprime = [1,5]
+%for vprime = 5;
+for vprime = 1;
     %for val = [vprime, vprime+10];
     %val = vprime+10; %For individual
     val = vprime; %For group
-    %SD_subjects_and_parameters;
-    pathstem = '/imaging/tc02/SD_Wordending/preprocess/final_ICA/';
+    SD_subjects_and_parameters;
+    postmerge_conditions_despaced = postmerge_conditions;
+    for i = 1:length(postmerge_conditions_despaced)
+        postmerge_conditions_despaced{i}(postmerge_conditions_despaced{i}==' ') = '';
+    end
+    conditions = postmerge_conditions_despaced;
+    pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016/';
     %pathstem = '/imaging/tc02/vespa/preprocess/testinversion/';
-
+    
+    hasallpostmerge_conditions = logical([1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     0     0     1     1     1     1]);
+    subjectstoinclude = subjects(hasallpostmerge_conditions);
+    
+    subjectstoexclude = subjects(~hasallpostmerge_conditions);
+    
+    
+    for i = subjectstoexclude %Exclude every mention of this subject ;)
+        group(~cellfun('isempty',regexpi(subjects,i))) = [];
+        dates(~cellfun('isempty',regexpi(subjects,i))) = [];
+        badeeg(~cellfun('isempty',regexpi(subjects,i))) = [];
+        badchannels(~cellfun('isempty',regexpi(subjects,i)),:) = [];
+        blocksin(~cellfun('isempty',regexpi(subjects,i))) = [];
+        blocksout(~cellfun('isempty',regexpi(subjects,i))) = [];
+        subjects(~cellfun('isempty',regexpi(subjects,i))) = [];
+    end
+    
     if vprime == 1 || vprime == 2 || vprime == 3
         invtype = 'MSPgroup'; % label for inversion
-    elseif vprime == 5 || vprime == 6 || vprime == 7 || vprime == 8 || vprime == 9 
+    elseif vprime == 5 || vprime == 6 || vprime == 7 || vprime == 8 || vprime == 9
         invtype = 'LORgroup'; % label for inversion
     end
-
+    
     % val = 2; % which field in 'inv' structure to store inversion
     if val < 10
         group_recon = 1; % whether group inversion should be used (0- single subject, 1- group)
     elseif val > 10
-        group_recon = 0; 
+        group_recon = 0;
     end
     targetfile = 'fmcfbdeMrun_play_raw_ssst';
     targetfilesplit = 'fmcfbdeMrun_play_1_raw_ssst';
@@ -78,7 +101,7 @@ for vprime = [1,5]
             D{s}.inv{val} = D2.inv{1};
         catch
             pause %Breakpoint here for debug
-        end        
+        end
         D{s}.inv{val}.gainmat = {}; %Re-compute this each time
         fieldstogo = {'xyz','pQ','rad'};
         try D{s}.inv{val}.inverse = rmfield(D{s}.inv{val}.inverse,fieldstogo); end
@@ -104,14 +127,14 @@ for vprime = [1,5]
             backup_badmeg{s} = [intersect(D{s}.indchantype('MEGPLANAR'),D{s}.badchannels) intersect(D{s}.indchantype('MEG'),D{s}.badchannels)];
             D{s} = D{s}.badchannels([backup_badmeg{s}],0);
         end
-%         if val == 1
-%             %Source priors based on Sohoglu 2012
-%             D{s}.inv{val}.inverse.xyz = [];
-%             D{s}.inv{val}.inverse.pQ = {};
-%             D{s}.inv{val}.inverse.xyz(1,:) = [-54, 18, 20]; %Inferior frontal gyrus, early time window
-%             D{s}.inv{val}.inverse.xyz(2,:) = [-56,-24, 4]; %STG, late time window
-%             D{s}.inv{val}.inverse.rad = 32;
-%         end
+        %         if val == 1
+        %             %Source priors based on Sohoglu 2012
+        %             D{s}.inv{val}.inverse.xyz = [];
+        %             D{s}.inv{val}.inverse.pQ = {};
+        %             D{s}.inv{val}.inverse.xyz(1,:) = [-54, 18, 20]; %Inferior frontal gyrus, early time window
+        %             D{s}.inv{val}.inverse.xyz(2,:) = [-56,-24, 4]; %STG, late time window
+        %             D{s}.inv{val}.inverse.rad = 32;
+        %         end
         if ~group_recon
             fprintf('\nComputing individual inversions using %s ...\n',D{s}.inv{val}.inverse.type);
             D{s} = spm_eeg_invert(D{s});
@@ -161,7 +184,8 @@ for vprime = [1,5]
     
     %% Compute time-freq contrasts and convert to image files
     
-    windows = [90 130; 180 240; 270 420; 450 700; 750 900];
+    %windows = [90 130; 180 240; 270 420; 450 700; 750 900];
+    windows = [-100 600; -100 900; 50 70; 140 180; 240 280];
     %windows = [450 700];
     freq = [1 40];
     
@@ -211,23 +235,23 @@ for vprime = [1,5]
     %% Compute grand-average of source images
     
     imagetype = {
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     imagetype_split = {
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    outputstem = '/imaging/tc02/SD_Wordending/final_ICA_source/';
+    outputstem = '/imaging/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -237,7 +261,7 @@ for vprime = [1,5]
             
             imgs = cell(0,length(subjects));
             for s=1:length(subjects)
-                if subjectsplit(s) == 0                    
+                if subjectsplit(s) == 0
                     file = dir([pathstem subjects{s} '/Source/' imagetype{im} '_' conid '.nii']);
                     if isempty(file)
                         file = dir([pathstem subjects{s} '/Source/' imagetype{im} '_' conid '.gii']);
@@ -271,22 +295,22 @@ for vprime = [1,5]
     %% Compute contrasts of grand-averaged source images
     
     imagetype = {
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     imagetype_split = {
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     
     %inputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/SD_Wordending/final_ICA_source/';
+    inputstem = '/imaging/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -300,7 +324,7 @@ for vprime = [1,5]
             files = dir([currentstem 'GA_' imagetype{im} '.nii']);
             imgs = [];
             for f=1:length(files)
-                imgs = [imgs; [currentstem files(f).name]];
+                imgs = strvcat(imgs, [currentstem files(f).name]);
             end
             Vi = spm_vol(imgs);
             imgs_data = spm_read_vols(Vi);
@@ -324,47 +348,47 @@ for vprime = [1,5]
     
     %% Compute group-average of source images
     
-     
-     % Define groups
-     controls2average = {};
-     patients2average = {};
-     controls2averageplit = [];
-     patients2averageplit = [];
-     for s=1:size(subjects,2) % for multiple subjects
-         
-         fprintf([ '\n\nCurrent subject = ' subjects{s} '...\n\n' ]);
-         
-         if group(s) == 1
-             fprintf([ '\nIdentified as a control. \n' ]);
-             controls2average{end+1} = subjects{s};
-             controls2averageplit(end+1) = subjectsplit(s);
-             
-         elseif group(s) == 2
-             fprintf([ '\nIdentified as a patient. \n' ]);
-             patients2average{end+1} = subjects{s};
-             patients2averageplit(end+1) = subjectsplit(s);
-         end
-         
-     end
-          
+    
+    % Define groups
+    controls2average = {};
+    patients2average = {};
+    controls2averageplit = [];
+    patients2averageplit = [];
+    for s=1:size(subjects,2) % for multiple subjects
+        
+        fprintf([ '\n\nCurrent subject = ' subjects{s} '...\n\n' ]);
+        
+        if group(s) == 1
+            fprintf([ '\nIdentified as a control. \n' ]);
+            controls2average{end+1} = subjects{s};
+            controls2averageplit(end+1) = subjectsplit(s);
+            
+        elseif group(s) == 2
+            fprintf([ '\nIdentified as a patient. \n' ]);
+            patients2average{end+1} = subjects{s};
+            patients2averageplit(end+1) = subjectsplit(s);
+        end
+        
+    end
+    
     imagetype = {
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     imagetype_split = {
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/SD_Wordending/final_ICA_source/';
+    inputstem = '/imaging/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -435,22 +459,22 @@ for vprime = [1,5]
     %% Compute contrasts of group-averaged source images
     
     imagetype = {
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     imagetype_split = {
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     
     %inputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/SD_Wordending/final_ICA_source/';
+    inputstem = '/imaging/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -464,7 +488,7 @@ for vprime = [1,5]
             files = dir([currentstem 'Controls_' imagetype{im} '.nii']);
             imgs = [];
             for f=1:length(files)
-                imgs = [imgs; [currentstem files(f).name]];
+                imgs = strvcat(imgs, [currentstem files(f).name]);
             end
             Vi = spm_vol(imgs);
             imgs_data = spm_read_vols(Vi);
@@ -498,7 +522,7 @@ for vprime = [1,5]
             files = dir([currentstem 'Patients_' imagetype{im} '.nii']);
             imgs = [];
             for f=1:length(files)
-                imgs = [imgs; [currentstem files(f).name]];
+                imgs = strvcat(imgs, [currentstem files(f).name]);
             end
             Vi = spm_vol(imgs);
             imgs_data = spm_read_vols(Vi);
@@ -523,22 +547,22 @@ for vprime = [1,5]
     %% Compute single-subject contrasts of source images
     
     imagetype = {
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     imagetype_split = {
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t90_130_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t180_240_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t270_420_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t450_700_f1_40*'];
-        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t750_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_600_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t-100_900_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t50_70_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t140_180_f1_40*'];
+        ['fmcfbdeMrun_play_1_raw_ssst_' num2str(val) '_t240_280_f1_40*'];
         };
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    outputstem = '/imaging/tc02/SD_Wordending/final_ICA_source/';
+    outputstem = '/imaging/tc02/SD_Wordending/2016/source/';
     
     parfor s=1:length(subjects)
         s
@@ -557,7 +581,7 @@ for vprime = [1,5]
                 end
                 imgs = [];
                 for f=1:length(files)
-                    imgs = [imgs; [currentstem files(f).name]];
+                    imgs = strvcat(imgs, [currentstem files(f).name]);
                 end
                 Vi = spm_vol(imgs);
                 imgs_data = spm_read_vols(Vi);
@@ -589,64 +613,64 @@ for vprime = [1,5]
     end
     
     %% Inspect inversions
-%     
-%     windows = [90 130; 180 240; 270 420; 450 700];
-%     inversions = [1,2,3,5,6,7,8,9,11,12,13,15,16,17,18,19];
-%     
-%     evidence = [];
-%     variance_explained = [];
-%     for s=1:length(subjects)
-%     
-%         for w=1:length(windows)
-%     
-%             for i=1:length(inversions)
-%     
-%         if exist([pathstem subjects{s} '/' targetfile '.mat']);
-%             D = spm_eeg_load([pathstem subjects{s} '/' targetfile]);
-%             subjectsplit(s) = 0;
-%         elseif exist([pathstem subjects{s} '/' targetfilesplit '.mat'])
-%             D = spm_eeg_load([pathstem subjects{s} '/' targetfilesplit]);
-%             subjectsplit(s) = 1;
-%         else
-%             error([pathstem subjects{s} '/' targetfile ' does not seem to exist'])
-%         end
-%     
-%                 D.val = inversions(i);
-%                 spm_eeg_invert_display(D,windows(w,1)+(windows(w,2)-windows(w,1)));
-%                 pause;
-%     
-%             end
-%     
-%         end
-%     
-%     end
-    end
+    %
+    %     windows = [90 130; 180 240; 270 420; 450 700];
+    %     inversions = [1,2,3,5,6,7,8,9,11,12,13,15,16,17,18,19];
+    %
+    %     evidence = [];
+    %     variance_explained = [];
+    %     for s=1:length(subjects)
+    %
+    %         for w=1:length(windows)
+    %
+    %             for i=1:length(inversions)
+    %
+    %         if exist([pathstem subjects{s} '/' targetfile '.mat']);
+    %             D = spm_eeg_load([pathstem subjects{s} '/' targetfile]);
+    %             subjectsplit(s) = 0;
+    %         elseif exist([pathstem subjects{s} '/' targetfilesplit '.mat'])
+    %             D = spm_eeg_load([pathstem subjects{s} '/' targetfilesplit]);
+    %             subjectsplit(s) = 1;
+    %         else
+    %             error([pathstem subjects{s} '/' targetfile ' does not seem to exist'])
+    %         end
+    %
+    %                 D.val = inversions(i);
+    %                 spm_eeg_invert_display(D,windows(w,1)+(windows(w,2)-windows(w,1)));
+    %                 pause;
+    %
+    %             end
+    %
+    %         end
+    %
+    %     end
+end
 %end
 %% Collate model evaluations (% variance explained and log-evidence)
-    
+
 %     inversions = [1,2,3,5,6,7,8,9,11,12,13,15,16,17,18,19];
-inversions = [1,5];
-    
-    evidence = [];
-    variance_explained = [];
-    for s=1:length(subjects)
-        s
-        if exist([pathstem subjects{s} '/' targetfile '.mat']);
-            D = spm_eeg_load([pathstem subjects{s} '/' targetfile]);
-            subjectsplit(s) = 0;
-        elseif exist([pathstem subjects{s} '/' targetfilesplit '.mat'])
-            D = spm_eeg_load([pathstem subjects{s} '/' targetfilesplit]);
-            subjectsplit(s) = 1;
-        else
-            error([pathstem subjects{s} '/' targetfile ' does not seem to exist'])
-        end
-    
-        for i=1:length(inversions)
-    
-            evidence(s,i) = D.inv{inversions(i)}.inverse.F;
-            variance_explained(s,i) = D.inv{inversions(i)}.inverse.R2;
-    
-        end
-    
-    end
-variance_explained
+% inversions = [1,5];
+% 
+% evidence = [];
+% variance_explained = [];
+% for s=1:length(subjects)
+%     s
+%     if exist([pathstem subjects{s} '/' targetfile '.mat']);
+%         D = spm_eeg_load([pathstem subjects{s} '/' targetfile]);
+%         subjectsplit(s) = 0;
+%     elseif exist([pathstem subjects{s} '/' targetfilesplit '.mat'])
+%         D = spm_eeg_load([pathstem subjects{s} '/' targetfilesplit]);
+%         subjectsplit(s) = 1;
+%     else
+%         error([pathstem subjects{s} '/' targetfile ' does not seem to exist'])
+%     end
+%     
+%     for i=1:length(inversions)
+%         
+%         evidence(s,i) = D.inv{inversions(i)}.inverse.F;
+%         variance_explained(s,i) = D.inv{inversions(i)}.inverse.R2;
+%         
+%     end
+%     
+% end
+% variance_explained

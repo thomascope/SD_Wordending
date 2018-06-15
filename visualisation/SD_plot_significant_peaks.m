@@ -2,8 +2,48 @@
 
 addpath(['/group/language/data/thomascope/vespa/SPM12version/Standalone preprocessing pipeline/tc_source_stats/ojwoodford-export_fig-216b30e']);
 
-SD_plot_betas_overall('MEGPLANAR',[50,70],[140 180], [240 280])
-SD_plot_betas_overall('MEG',[50,70],[140 180], [240 280])
+SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[-42,-9],'MEGCOMB') %Sum all standard onsets
+
+SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[42,-9],'MEGCOMB') %Sum all standard onsets (right)
+
+SD_plot_betas([1:18],kron([0, 0, 0, 1, 0, 0],[1,1,1]),{'T_0006','T_0007'},23,[-42,-9],'MEGCOMB') %Sum all standard offsets
+
+% SD_plot_betas([1:18],kron([1, 1, 1, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[-42,-9],'MEGCOMB') %Sum all onsets
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[-47,-9],'MEGCOMB') %Offset D-S
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[47,-9],'MEGCOMB') %Offset D-S (right)
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]),{'T_0021','T_0022'},23,[-55,2],'MEGCOMB') %Offset Dd-Dt
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]),{'T_0021','T_0022'},23,[55,2],'MEGCOMB') %Offset Dd-Dt (right)
+
+
+SD_plot_betas([1:18],kron([0, 0, 0, -1, 0.5, 0.5],[0.5,0.5,-1]),{'T_0039','T_0040'},23,[-47,-9],'MEGCOMB') %Interaction D-S (at offset D-S peak)
+
+SD_plot_betas([1:18],kron([0, 0, 0, -1, 0.5, 0.5],[0.5,0.5,-1]),{'T_0039','T_0040'},23,[47,-9],'MEGCOMB') %Interaction D-S (right)
+
+
+SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[-42,-9],'MEGMAG') %Sum all standard onsets
+
+SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[42,-9],'MEGMAG') %Sum all standard onsets (right)
+
+SD_plot_betas([1:18],kron([0, 0, 0, 1, 0, 0],[1,1,1]),{'T_0006','T_0007'},23,[-42,-9],'MEGMAG') %Sum all standard offsets
+
+% SD_plot_betas([1:18],kron([1, 1, 1, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[-42,-9],'MEGMAG') %Sum all onsets
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[-47,-9],'MEGMAG') %Offset D-S
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[47,-9],'MEGMAG') %Offset D-S (right)
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]),{'T_0021','T_0022'},23,[-55,2],'MEGMAG') %Offset Dd-Dt
+
+SD_plot_betas([1:18],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]),{'T_0021','T_0022'},23,[55,2],'MEGMAG') %Offset Dd-Dt (right)
+
+
+SD_plot_betas_overall('MEGPLANAR',[0 0])
+%SD_plot_betas_overall('MEGPLANAR',[50,70],[140 180], [240 280])
+%SD_plot_betas_overall('MEG',[50,70],[140 180], [240 280])
 
 % 
 

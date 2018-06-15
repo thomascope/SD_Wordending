@@ -1,13 +1,11 @@
 %-----------------------------------------------------------------------
-% Job saved on 07-Feb-2015 09:44:53 by cfg_util (rev $Rev: 6134 $)
-% spm SPM - SPM12 (6225)
+% Job saved on 11-Jan-2017 15:31:58 by cfg_util (rev $Rev: 6460 $)
+% spm SPM - SPM12 (6906)
 %-----------------------------------------------------------------------
-%%
-matlabbatch{1}.spm.meeg.source.headmodel.D = {'<UNDEFINED>'};
-%%
+matlabbatch{1}.spm.meeg.source.headmodel.D = '<UNDEFINED>';
 matlabbatch{1}.spm.meeg.source.headmodel.val = 1;
 matlabbatch{1}.spm.meeg.source.headmodel.comment = '';
-matlabbatch{1}.spm.meeg.source.headmodel.meshing.meshes.mri = {'<UNDEFINED>'};
+matlabbatch{1}.spm.meeg.source.headmodel.meshing.meshes.mri = '<UNDEFINED>';
 matlabbatch{1}.spm.meeg.source.headmodel.meshing.meshres = 2;
 matlabbatch{1}.spm.meeg.source.headmodel.coregistration.coregspecify.fiducial(1).fidname = 'Nasion';
 matlabbatch{1}.spm.meeg.source.headmodel.coregistration.coregspecify.fiducial(1).specification.select = 'nas';

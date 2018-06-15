@@ -92,7 +92,7 @@ p.preImageMask = -100; % pre image time (ms)
 p.postImageMask = 950; % post image time (ms)
 
 % time windows over which to average for 'first-level' contrasts (ms)
-p.windows = [50,70;140 180;240 280];
+p.windows = [-100 600; -100 900; 50,70; 140 180; 240 280];
 
 % set groups to input
 p.group = group;
@@ -204,6 +204,18 @@ for cnt = 1
     SD_Preprocessing_mainfunction('mask','fmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end  
 
+% Now create lateralised images for comparison
+
+parfor cnt = 1:size(subjects,2)
+    warning('off','MATLAB:TriScatteredInterp:DupPtsAvValuesWarnId') %Suppress the warning about duplicate datapoints. This is caused by having two gradiometers at each location. For evoked data, this warning is valid as they should be rms combined, but for induced data it shouldn't make a difference and saves a step.
+    SD_Preprocessing_mainfunction('image_lateralised','fmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+parfor cnt = 1:size(subjects,2)
+    % The input for smoothing should be the same as the input used to make
+    % the image files.
+    SD_Preprocessing_mainfunction('smooth_lateralised','fmceffbdMr*.mat',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+
 % now, if you want to simplify, you can move all of the smoothed nifti images into folders marked
 % controls/patients, either manually or with copyniftitofolder.py (you will
 % need to change the paths and search characteristics appropriately).
@@ -214,7 +226,7 @@ parfor cnt = 1:size(subjects,2)
     SD_Preprocessing_mainfunction('TF','merge',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 parfor cnt = 1:size(subjects,2)
-    SD_Preprocessing_mainfunction('average','TF_power',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+    SD_Preprocessing_mainfunction('resume_average','TF_power',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
 p.robust = 0; %robust averaging doesn't work for phase data
 parfor cnt = 1:size(subjects,2)
@@ -249,6 +261,19 @@ for cnt = 1
     % the image files. Only need to do this for a single subject
     SD_Preprocessing_mainfunction('mask','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
 end
+
+% Now create lateralised images for comparison
+
+parfor cnt = 1:size(subjects,2)
+    warning('off','MATLAB:TriScatteredInterp:DupPtsAvValuesWarnId') %Suppress the warning about duplicate datapoints. This is caused by having two gradiometers at each location. For evoked data, this warning is valid as they should be rms combined, but for induced data it shouldn't make a difference and saves a step.
+    SD_Preprocessing_mainfunction('image_lateralised','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+parfor cnt = 1:size(subjects,2)
+    % The input for smoothing should be the same as the input used to make
+    % the image files.
+    SD_Preprocessing_mainfunction('smooth_lateralised','TF_rescale',p,pathstem, maxfilteredpathstem, subjects{cnt},cnt);
+end
+
 
 %Now to do the higher frequencies with multitapers! - If you want to do
 %this, you must copy the merged files, to another folder appended with '_taper' and re-run from

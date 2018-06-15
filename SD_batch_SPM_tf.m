@@ -1,8 +1,11 @@
 %% Initialise path and subject definitions
+function SD_batch_SPM_tf(side)
 
-addpath('/group/language/data/thomascope/SD_Wordending')
-SD_subjects_and_parameters; 
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016/';
+% side = 1; % 1 for whole scalp, 2 for left, 3 for right, 4 for right-left
+
+SD_subjects_and_parameters;
+pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016_tf/';
+source_directory = '/imaging/tc02/SD_Wordending/preprocess/2016/';
 
 rmpath(genpath('/imaging/local/software/spm_cbu_svn/releases/spm12_latest/'))
 addpath /imaging/local/software/spm_cbu_svn/releases/spm12_fil_r6906
@@ -11,25 +14,44 @@ spm eeg
 hasallpostmerge_conditions = logical([1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     0     0     1     1     1     1]);
 subjectstoinclude = subjects(hasallpostmerge_conditions);
 
-postmerge_conditions_despaced = postmerge_conditions;
+postmerge_conditions_despaced = postmerge_conditions_tf;
 for i = 1:length(postmerge_conditions_despaced)
     postmerge_conditions_despaced{i}(postmerge_conditions_despaced{i}==' ') = '';
 end
-% 
-% postmerge_conditions = {'Standard_onset fbdeMrun_play_raw_ssst' 'Standard_onset fbdeMrun_tray_raw_ssst' 'Standard_onset fbdeMrun_qway_raw_ssst' 'Deviant_D_onset fbdeMrun_play_raw_ssst'  'Deviant_D_onset fbdeMrun_tray_raw_ssst' 'Deviant_D_onset fbdeMrun_qway_raw_ssst' 'Deviant_T_onset fbdeMrun_play_raw_ssst'  'Deviant_T_onset fbdeMrun_tray_raw_ssst' 'Deviant_T_onset fbdeMrun_qway_raw_ssst' 'Standard_offset fbdeMrun_play_raw_ssst'  'Standard_offset fbdeMrun_tray_raw_ssst' 'Standard_offset fbdeMrun_qway_raw_ssst' 'Deviant_D_offset fbdeMrun_play_raw_ssst'  'Deviant_D_offset fbdeMrun_tray_raw_ssst' 'Deviant_D_offset fbdeMrun_qway_raw_ssst' 'Deviant_T_offset fbdeMrun_play_raw_ssst'  'Deviant_T_offset fbdeMrun_tray_raw_ssst' 'Deviant_T_offset fbdeMrun_qway_raw_ssst'};
-% 
+%
+% postmerge_conditions = {'Mismatch_4' 'Match_4' 'Mismatch_8' 'Match_8' 'Mismatch_16' 'Match_16'};
+%
 % contrast_labels = {'Sum all postmerge_conditions';'Match-MisMatch'; 'Clear minus Unclear'; 'Gradient difference M-MM'};
-% contrast_weights = [1, 1, 1, 1, 1, 1; -1, -1, 1, -1, 1, 1; -1, -1, 0, 0, 1, 1; -1, 1, 0, 0, 1, -1];    
+% contrast_weights = [1, 1, 1, 1, 1, 1; -1, -1, 1, -1, 1, 1; -1, -1, 0, 0, 1, 1; -1, 1, 0, 0, 1, -1];
 %% Configure
 
-filetype = 'PfmcfbdeMrun_play_raw_ssst';
-filetypesplit = 'PfmcfbdeMrun_play_1_raw_ssst';
-modality = {'MEGCOMB' 'MEGMAG'};
+
+filetype = 'rmtf_ceffbdMrun_play_raw_ssst';
+filetypesplit = 'rmtf_ceffbdMrun_play_1_raw_ssst';
 imagetype = {'sm_'};
 p.windows = [-100 600; -100 900; 50,70; 140 180; 240 280];
+mask_modality = {'MEGPLANAR' 'MEGMAG'};
 
-outputstem = '/imaging/tc02/SD_Wordending/preprocess/2016/stats_2018_1';
-
+if side == 1
+    
+    modality = {'MEGPLANAR' 'MEGMAG'};
+    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf';
+    
+elseif side == 2
+    
+    modality = {'left_MEGPLANAR' 'left_MEGMAG'};
+    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf_left';
+    
+elseif side == 3
+    
+    modality = {'right_MEGPLANAR' 'right_MEGMAG'};
+    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf_right';
+    
+elseif side == 4
+    
+    modality = {'contrast_MEGPLANAR' 'contrast_MEGMAG'};
+    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf_contrast';
+end
 %mskname = '/imaging/local/spm/spm8/apriori/grey.nii'; % specify in modality loop below if multiple modalities are being estimated. Don't specify if not needed
 
 % Contrasts (don't specify if not needed)
@@ -533,14 +555,14 @@ contrasts{cnt}.c =  kron([1 -1],kron([ 0, 0, 0, 0, 1, -1],[0,0,1]));
 contrasts{cnt}.type = 'T';
 
 
-%% Estimate models
 
+%% Estimate models
 
 %for img=1:length(imagetype)
 img = 1;
 for wind = 1:length(p.windows)
     for m=1:length(modality)
-    %for m = 3
+        %for m = 3
         files = {};
         % set input files for averaging
         controls2average = {};
@@ -559,16 +581,16 @@ for wind = 1:length(p.windows)
                 catch
                     controls2rejecteeg{end+1} = 0; %If undefined
                 end
-                               
+                
             elseif group(s) == 2
                 fprintf([ '\nIdentified as a patient. \n' ]);
                 patients2average{end+1} = subjectstoinclude{s};
                 try
-                patients2rejecteeg{end+1} = rejecteeg{s};
+                    patients2rejecteeg{end+1} = rejecteeg{s};
                 catch
                     patients2rejecteeg{end+1} = 0; %If undefined
                 end
-               
+                
             end
             
         end
@@ -607,18 +629,18 @@ for wind = 1:length(p.windows)
                 end
                 
                 
-%                 % set up input structure for batch_spm_anova_vES
-%                 S.imgfiles = files{1}{:}{:};
-%                 S.outdir = outputfullpath;
-%                 S.uUFp = 1; % for M/EEG only
-%                 %S.nsph_flag = 0;
-%                 %mskname = [pathstem modality{m} '_mask_0_800ms.img'];
-%                 if exist('mskname'); S.maskimg = mskname; end;
-%                 if exist('contrasts'); S.contrasts = contrasts; end;
-%                 if exist('covariates'); S.user_regs = covariates; end;
-%                 
-%                 % estimate model and compute contrasts
-%                 batch_spm_anova_es(S);
+                %                 % set up input structure for batch_spm_anova_vES
+                %                 S.imgfiles = files{1}{:}{:};
+                %                 S.outdir = outputfullpath;
+                %                 S.uUFp = 1; % for M/EEG only
+                %                 %S.nsph_flag = 0;
+                %                 %mskname = [pathstem modality{m} '_mask_0_800ms.img'];
+                %                 if exist('mskname'); S.maskimg = mskname; end;
+                %                 if exist('contrasts'); S.contrasts = contrasts; end;
+                %                 if exist('covariates'); S.user_regs = covariates; end;
+                %
+                %                 % estimate model and compute contrasts
+                %                 batch_spm_anova_es(S);
                 
                 
             elseif groups == 2
@@ -655,40 +677,40 @@ for wind = 1:length(p.windows)
                 end
                 
                 
-%                 % set up input structure for batch_spm_anova_vES
-%                 S.imgfiles = files{2}{:}{:};
-%                 S.outdir = outputfullpath;
-%                 S.uUFp = 1; % for M/EEG only
-%                 %S.nsph_flag = 0;
-%                 %mskname = [pathstem modality{m} '_mask_0_800ms.img'];
-%                 if exist('mskname'); S.maskimg = mskname; end;
-%                 if exist('contrasts'); S.contrasts = contrasts; end;
-%                 if exist('covariates'); S.user_regs = covariates; end;
-%                 
-%                 % estimate model and compute contrasts
-%                 batch_spm_anova_es(S);
-
+                %                 % set up input structure for batch_spm_anova_vES
+                %                 S.imgfiles = files{2}{:}{:};
+                %                 S.outdir = outputfullpath;
+                %                 S.uUFp = 1; % for M/EEG only
+                %                 %S.nsph_flag = 0;
+                %                 %mskname = [pathstem modality{m} '_mask_0_800ms.img'];
+                %                 if exist('mskname'); S.maskimg = mskname; end;
+                %                 if exist('contrasts'); S.contrasts = contrasts; end;
+                %                 if exist('covariates'); S.user_regs = covariates; end;
+                %
+                %                 % estimate model and compute contrasts
+                %                 batch_spm_anova_es(S);
+                
             end
         end
         
         
         
-%         outputfullpath = [outputstem imagetype{img} '/' modality{m}];
-%         if ~exist(outputfullpath)
-%             mkdir(outputfullpath);
-%         end
-%         
-%         for s=1:length(subjectstoinclude) % specify file locations for batch_spm_anova_vES
-%             
-%             for c=1:length(postmerge_conditions_despaced)
-%                 
-%                 files{1}{s}{c} = strjoin([pathstem subjectstoinclude{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
-%                 
-%             end
-%             
-%         end
-            
-            
+        %         outputfullpath = [outputstem imagetype{img} '/' modality{m}];
+        %         if ~exist(outputfullpath)
+        %             mkdir(outputfullpath);
+        %         end
+        %
+        %         for s=1:length(subjectstoinclude) % specify file locations for batch_spm_anova_vES
+        %
+        %             for c=1:length(postmerge_conditions_despaced)
+        %
+        %                 files{1}{s}{c} = strjoin([pathstem subjectstoinclude{s} '/' modality{m} filetype '/' imagetype 'condition_' postmerge_conditions_despaced{c} '.nii'],'');
+        %
+        %             end
+        %
+        %         end
+        
+        
         % set up input structure for batch_spm_anova_vES
         files{1} = files{1}(~cellfun(@isempty,files{1}));
         files{2} = files{2}(~cellfun(@isempty,files{2}));
@@ -701,9 +723,9 @@ for wind = 1:length(p.windows)
             %mskname = [pathstem modality{m}(6:end)
             %'_1D_mask_0_800ms.img']; No need for mask - images created
             %with restricted time window
-        else            
-            mskname = [pathstem modality{m} sprintf(['_mask_%d_%dms.img'],p.windows(wind,1),p.windows(wind,2))];
-            %mskname = [pathstem modality{m} '_mask_-100_800ms.img'];
+        else
+            mskname = [pathstem mask_modality{m} sprintf(['_mask_%d_%dms.img'],p.windows(wind,1),p.windows(wind,2))];
+            %mskname = [pathstem mask_modality{m} '_mask_-100_800ms.img'];
         end
         if exist('mskname'); S.maskimg = mskname; end;
         if exist('contrasts'); S.contrasts = contrasts; end;
@@ -711,7 +733,8 @@ for wind = 1:length(p.windows)
         
         % estimate model and compute contrasts
         batch_spm_anova_es(S);
-           
+        
     end
 end
+
 %end

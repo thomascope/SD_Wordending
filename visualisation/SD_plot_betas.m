@@ -142,6 +142,8 @@ times=[-500:4:1500];
 figHandles = findobj('Type','axes');
 if isequal(contrast,kron([1, 0, 0, 0, 0, 0],[1,1,1]))
     contrastnumber = 1; %Sum all standard onsets
+elseif isequal(contrast,kron([1, 0, 0, 0, 0, 0],[1,1,0]))
+    contrastnumber = 1; %Sum all standard onsets
 elseif isequal(contrast,kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]))
     contrastnumber = 10; %Offset D-S
 elseif isequal(contrast,kron([ 0, 0, 0, 0, 1, -1],[1,1,1]))

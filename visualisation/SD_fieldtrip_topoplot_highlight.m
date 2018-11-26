@@ -47,7 +47,7 @@ if strcmp(modality,'MEGCOMB') || strcmp(modality,'MEGPLANAR')
             title_text = ['Patients topoplot for planar gradiometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2))];
         end
         
-        
+        cfg.colormap = 'jet';
         ft_topoplotER(cfg,timelock);
         colorbar
         title(title_text)
@@ -98,7 +98,7 @@ elseif strcmp(modality,'MEGMAG') || strcmp(modality,'MEG')
             title_text = ['Patients topoplot for magnetometers, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2))];
         end
         
-        
+        cfg.colormap = 'jet';
         ft_topoplotER(cfg,timelock);
         colorbar
         title(title_text)
@@ -138,7 +138,7 @@ elseif strcmp(modality,'EEG')
         cfg.colorbar = 'yes';
         cfg.marker = 'off';
         timelock = ft_timelockanalysis(cfg, planardata);
-                if dataset == 1
+        if dataset == 1
             figure(controlfig)
             title_text = ['Controls topoplot for EEG, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2))];
         else
@@ -146,6 +146,7 @@ elseif strcmp(modality,'EEG')
             title_text = ['Patients topoplot for EEG, contrast ' num2str(contrastnumber) ' time window ' num2str(timewindow(1)) ' to ' num2str(timewindow(2))];
         end
         
+        cfg.colormap = 'jet';
         ft_topoplotER(cfg,timelock);
         colorbar
         title(title_text)

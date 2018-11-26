@@ -1,10 +1,15 @@
 %Script to visualise Karalyn's SD data.
 
 addpath(['/group/language/data/thomascope/vespa/SPM12version/Standalone preprocessing pipeline/tc_source_stats/ojwoodford-export_fig-216b30e']);
+rmpath('/imaging/local/linux/mne_2.6.0/mne/matlab/toolbox') % Confuses fieldtrip
 
 SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[-42,-9],'MEGCOMB') %Sum all standard onsets
 
 SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,1]),{'T_0003','T_0004'},23,[42,-9],'MEGCOMB') %Sum all standard onsets (right)
+
+SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,0]),{'T_0003','T_0004'},23,[-42,-9],'MEGCOMB') %Sum all standard real word onsets
+
+SD_plot_betas([1:18],kron([1, 0, 0, 0, 0, 0],[1,1,0]),{'T_0003','T_0004'},23,[42,-9],'MEGCOMB') %Sum all standard real word onsets (right)
 
 SD_plot_betas([1:18],kron([0, 0, 0, 1, 0, 0],[1,1,1]),{'T_0006','T_0007'},23,[-42,-9],'MEGCOMB') %Sum all standard offsets
 
@@ -13,6 +18,8 @@ SD_plot_betas([1:18],kron([0, 0, 0, 1, 0, 0],[1,1,1]),{'T_0006','T_0007'},23,[-4
 SD_plot_betas([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[-47,-9],'MEGCOMB') %Offset D-S
 
 SD_plot_betas([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[47,-9],'MEGCOMB') %Offset D-S (right)
+
+SD_laterality_quotient([1:18],kron([ 0, 0, 0, -1, 0.5, 0.5],[1,1,1]),{'T_0016','T_0017'},23,[-47,-9],[47,-9],'MEGCOMB')
 
 SD_plot_betas([1:18],kron([ 0, 0, 0, 0, 1, -1],[1,1,1]),{'T_0021','T_0022'},23,[-55,2],'MEGCOMB') %Offset Dd-Dt
 

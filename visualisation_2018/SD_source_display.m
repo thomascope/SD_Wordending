@@ -31,8 +31,9 @@ for i = 1:length(windows)
 %     savepath = ['./Source_Reconstructions_2018/Patients_D-S_2018_' num2str(i)];
 %     eval(['export_fig ' savepath '.png -transparent -m2.5'])
 %     close all
-    cfg.threshold = [2.336 6]; %p=0.01
-
+    %cfg.threshold = [2.336 6]; %p=0.01
+    cfg.threshold = [2.336 8.8]; %p=0.01
+    
     jp_spm8_surfacerender2_version_tc(['/imaging/tc02/SD_Wordending/preprocess/2018/stats_source/reconstruction_5/stats/' num2str(windows(i,1)) '_' num2str(windows(i,2)) '/spmT_0105.nii'],'jet',cfg)
     savepath = ['./Source_Reconstructions_2018/Controls_D-S_2018_' num2str(i)];
     eval(['export_fig ' savepath '.png -transparent -m2.5'])
@@ -61,7 +62,7 @@ for i = 1:length(windows)
 %     eval(['export_fig ' savepath '.png -transparent -m2.5'])
     
     if i == 2
-        cfg.threshold = [3.11 6]; %p=0.001
+        
 %         jp_spm8_surfacerender2_version_tc(['/imaging/tc02/SD_Wordending/preprocess/2018/stats_source/reconstruction_5/stats/' num2str(windows(i,1)) '_' num2str(windows(i,2)) '/spmF_0024.nii'],'jet',cfg_f)
 %         savepath = ['./Source_Reconstructions_2018/Control_Play_Tray_2018_' num2str(i)];
 %         eval(['export_fig ' savepath '.png -transparent -m2.5'])
@@ -98,7 +99,10 @@ for i = 1:length(windows)
 %         savepath = ['./Source_Reconstructions_2018/GroupxTray_Qway_2018_' num2str(i)];
 %         eval(['export_fig ' savepath '.png -transparent -m2.5'])
 %         
-        jp_spm8_surfacerender2_version_tc(['/imaging/tc02/SD_Wordending/preprocess/2018/stats_source_2/reconstruction_5/stats/' num2str(windows(i,1)) '_' num2str(windows(i,2)) '/spmT_0047.nii'],'jet',cfg)
+%cfg.threshold = [3.11 6]; %p=0.001        
+cfg.threshold = [3.11 9.3]; %p=0.001        
+
+jp_spm8_surfacerender2_version_tc(['/imaging/tc02/SD_Wordending/preprocess/2018/stats_source_2/reconstruction_5/stats/' num2str(windows(i,1)) '_' num2str(windows(i,2)) '/spmT_0047.nii'],'jet',cfg)
         savepath = ['./Source_Reconstructions_2018/Control_Play_Tray_2018_' num2str(i)];
         eval(['export_fig ' savepath '.png -transparent -m2.5'])
         close all

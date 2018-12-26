@@ -17,6 +17,7 @@
 %MEGMAG (left posterior)
 
 function SD_plot_betas(whichbetas,contrast,statspm,nsubj,location,modality,varargin)
+plotscalps = 0 %for working out significant time windows
 
 addpath('/group/language/data/thomascope/vespa/SPM12version/Standalone preprocessing pipeline/tc_source_stats/ojwoodford-export_fig-216b30e')
 
@@ -168,8 +169,10 @@ save_string = ['./Significant_peaks/' titlestr{2}(2:end) ', contrast ' titlestr{
 eval(['export_fig ''' save_string ''' -transparent'])
 
 for i = 1:length(starting)
-    timewindow = [times(starting(i)) times(ending(i))];
+    timewindow = [times(starting(i)) times(ending(i))]
+    if plotscalps == 1
     SD_fieldtrip_topoplot_highlight(timewindow,contrastnumber,location,modality)
+    end
     scales(:,i) = caxis;
 end
 figHandles2 = findobj('Type','axes');
@@ -183,6 +186,8 @@ end
 if isempty(varargin)
     varargin{1} = [0 400];
 end
+if plotscalps == 1
 for i = 1:length(varargin)
     SD_fieldtrip_topoplot_highlight(varargin{i},contrastnumber,location,modality)
+end
 end

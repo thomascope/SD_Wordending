@@ -359,12 +359,28 @@ p_val = zeros(1,size(Q_pat,2));
 h = zeros(1,size(Q_pat,2));
 for samp = 1:size(Q_pat,2)
     [h(samp), pval(samp)] = ttest2(Q_con(:,samp),Q_pat(:,samp));
+    [h_pat(samp), pval_pat(samp), ~, stat_pat{samp}] = ttest(Q_pat(:,samp));
+    [h_con(samp), pval_con(samp), ~, stat_con{samp}] = ttest(Q_con(:,samp));
 end
+
 subplot(2,1,2)
 plot(-100:4:600,pval)
-    
 
-save_string = ['./Significant_peaks/' titlestr{2}(2:end) ', laterality quotient for ' modality ' at ' num2str(left_location) ' vs ' num2str(right_location) '.pdf'];
+%Calculate the times at which activity in each scalp location exceeds its standard deviation in the baseline
+%times(abs(controltoplot_l)>std(controltoplot_l(times>=-100&times<=0))&abs(patienttoplot_l)>std(patienttoplot_l(times>=-100&times<=0))&abs(controltoplot_r)>std(controltoplot_r(times>=-100&times<=0))&abs(patienttoplot_r)>std(patienttoplot_r(times>=-100&times<=0)))
+
+save_string = ['./Significant_peaks/laterality quotient with pval for ' modality ' at ' num2str(left_location) ' vs ' num2str(right_location) '.pdf'];
+eval(['export_fig ''' save_string ''' -transparent'])
+
+figure
+stdshade_TEC(Q_con,0.2,'g',-100:4:600,1,1)
+hold on
+stdshade_TEC(Q_pat,0.2,'r',-100:4:600,1,1)
+plot(-100:4:600,zeros(1,length([-100:4:600])),'k-')
+ylim([-100 100])
+  
+
+save_string = ['./Significant_peaks/laterality quotient for ' modality ' at ' num2str(left_location) ' vs ' num2str(right_location) '.pdf'];
 eval(['export_fig ''' save_string ''' -transparent'])
 
 

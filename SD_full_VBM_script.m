@@ -442,7 +442,7 @@ end
 try
     inputs{4, 1} = [tiv(1:length(SDmrilist)); tiv(ia)];
 catch
-    tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+    tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM'];
     filename = [tivstem '.csv'];
     delimiter = ',';
     startRow = 2;
@@ -494,9 +494,9 @@ inputs = cell(6, nrun);
 
 split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
 split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
-load('VBM_ages.mat')
+
 for crun = 1:nrun
-    inputs{1, crun} = {['/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_single_subject/' split_stem_SD{crun}{2}(1:end-4)]};
+    inputs{1, crun} = {['/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_single_subject/patient_' num2str(crun)]};
     inputs{2, crun} = cellstr([split_stem_SD{crun}{1} '/structural/smwc1' split_stem_SD{crun}{2}]);
     inputs{3, crun} = cell(length(controlmrilist),1);
     for i = 1:length(controlmrilist)
@@ -505,7 +505,7 @@ for crun = 1:nrun
     try
         inputs{4, crun} = [tiv(crun); tiv(nrun+1:end)];
     catch
-        tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+        tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM'];
         filename = [tivstem '.csv'];
         delimiter = ',';
         startRow = 2;
@@ -517,7 +517,7 @@ for crun = 1:nrun
         tiv= dataArray{2}+dataArray{3}+dataArray{4};
         inputs{4, crun} = [tiv(crun); tiv(nrun+1:end)];
     end
-    inputs{5, crun} = [pnfaages(crun); controlages];
+    inputs{5, crun} = [SD_ages(crun); control_ages];
     inputs{6, crun} =  {'control_majority_smoothed_mask_c1_thr0.1_cons0.8.img'};
 end
 

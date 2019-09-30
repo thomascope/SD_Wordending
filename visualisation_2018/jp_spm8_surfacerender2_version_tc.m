@@ -270,6 +270,20 @@ switch plotnum
     error('Only know about 2 types of plot positions.');      
 end
 
+% For bottom, top, or front views
+switch plotnum
+  case 1
+ax = axes('position', [.05 .1 .45 .6], 'visible', 'off');
+myview = [0 -90]; % bottom
+this_cam_dir = [0 1 0]; % Flip upwards direction
+  case 2
+% ax = axes('position', [.47 .1 .45 .6], 'visible', 'off');
+% myview = [0 90]; % top
+ax = axes('position', [.47 .1 .45 .6], 'visible', 'off');
+myview = [-180 0]; % front
+  otherwise
+    error('Only know about 2 types of plot positions.');      
+end
 
 %-Project data onto surface mesh
 %--------------------------------------------------------------------------
@@ -342,6 +356,9 @@ axis(ax,'image');
 l = camlight; set(l,'Parent',ax);
 material(Fgraph,'dull');
 setappdata(ax,'camlight',l);
+try
+    camup(this_cam_dir)
+end
 
 
 %==========================================================================

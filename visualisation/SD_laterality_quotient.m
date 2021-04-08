@@ -11,7 +11,7 @@ function SD_laterality_quotient(whichbetas,contrast,statspm,nsubj,left_location,
 
 addpath('/group/language/data/thomascope/vespa/SPM12version/Standalone preprocessing pipeline/tc_source_stats/ojwoodford-export_fig-216b30e')
 
-pathstem = ['/imaging/tc02/SD_Wordending/preprocess/2016/stats_4sm_/combined_-100_600_' modality];
+pathstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/stats_4sm_/combined_-100_600_' modality];
 
 assert(length(whichbetas) == length(contrast), 'For this to work, the contrast has to completely fill the beta space')
 

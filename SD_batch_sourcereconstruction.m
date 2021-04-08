@@ -24,8 +24,8 @@ for vprime = 1;
         postmerge_conditions_despaced{i}(postmerge_conditions_despaced{i}==' ') = '';
     end
     conditions = postmerge_conditions_despaced;
-    pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016/';
-    %pathstem = '/imaging/tc02/vespa/preprocess/testinversion/';
+    pathstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/';
+    %pathstem = '/imaging/mlr/users/tc02/vespa/preprocess/testinversion/';
     
     hasallpostmerge_conditions = logical([1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     0     0     1     1     1     1]);
     subjectstoinclude = subjects(hasallpostmerge_conditions);
@@ -251,7 +251,7 @@ for vprime = 1;
     
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    outputstem = '/imaging/tc02/SD_Wordending/2016/source/';
+    outputstem = '/imaging/mlr/users/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -310,7 +310,7 @@ for vprime = 1;
         };
     
     %inputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/SD_Wordending/2016/source/';
+    inputstem = '/imaging/mlr/users/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -388,7 +388,7 @@ for vprime = 1;
     
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/SD_Wordending/2016/source/';
+    inputstem = '/imaging/mlr/users/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -474,7 +474,7 @@ for vprime = 1;
         };
     
     %inputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/SD_Wordending/2016/source/';
+    inputstem = '/imaging/mlr/users/tc02/SD_Wordending/2016/source/';
     
     parfor im=1:length(imagetype)
         
@@ -562,7 +562,7 @@ for vprime = 1;
         };
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    outputstem = '/imaging/tc02/SD_Wordending/2016/source/';
+    outputstem = '/imaging/mlr/users/tc02/SD_Wordending/2016/source/';
     
     parfor s=1:length(subjects)
         s

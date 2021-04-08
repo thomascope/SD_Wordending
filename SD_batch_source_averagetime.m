@@ -7,7 +7,7 @@ end
 %% Average source images across time-windows
 %es_batch_init;
 SD_subjects_and_parameters
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/final_ICA/';
+pathstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/final_ICA/';
 
 %%
 
@@ -33,7 +33,7 @@ imagetype_split = {
     };
     
 %outputstem = '/imaging/es03/P3E1/sourceimages2_averagetime/'; 
-outputstem = ['/imaging/tc02/SD_Wordending/preprocess/final_ICA/source/reconstruction_' num2str(val) '/']; 
+outputstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/final_ICA/source/reconstruction_' num2str(val) '/']; 
 
 for s=1:length(subjects)
     

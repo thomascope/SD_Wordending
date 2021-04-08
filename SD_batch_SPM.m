@@ -2,7 +2,7 @@
 
 addpath('/group/language/data/thomascope/SD_Wordending')
 SD_subjects_and_parameters; 
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016/';
+pathstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/';
 
 rmpath(genpath('/imaging/local/software/spm_cbu_svn/releases/spm12_latest/'))
 addpath /imaging/local/software/spm_cbu_svn/releases/spm12_fil_r6906
@@ -28,7 +28,7 @@ modality = {'MEGCOMB' 'MEGMAG'};
 imagetype = {'sm_'};
 p.windows = [-100 600; -100 900; 50,70; 140 180; 240 280];
 
-outputstem = '/imaging/tc02/SD_Wordending/preprocess/2016/stats_2018_1';
+outputstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/stats_2018_1';
 
 %mskname = '/imaging/local/spm/spm8/apriori/grey.nii'; % specify in modality loop below if multiple modalities are being estimated. Don't specify if not needed
 

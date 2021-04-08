@@ -2,54 +2,54 @@
 % Segment: Volumes - cfg_files
 
 mrilist = {
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0252/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0259/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0260/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0264/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0265/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0266/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0292/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0293/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0295/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0307/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0311/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0330/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0338/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0462/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0183/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0185/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0186/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0228/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg10_0026/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg12_0261/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg12_0262/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg12_0404/structural/structural.nii'};
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0252/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0259/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0260/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0264/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0265/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0266/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0292/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0293/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0295/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0307/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0311/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0330/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0338/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0462/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0183/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0185/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0186/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0228/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg10_0026/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg12_0261/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg12_0262/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg12_0404/structural/structural.nii'};
 
 controlmrilist = {                            
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0252/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0259/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0260/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0264/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0265/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0266/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0292/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0293/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0295/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0307/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0311/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0330/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0338/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg08_0462/structural/structural.nii'};
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0252/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0259/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0260/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0264/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0265/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0266/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0292/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0293/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0295/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0307/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0311/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0330/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0338/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg08_0462/structural/structural.nii'};
 
 SDmrilist = {                                              
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0183/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0185/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0186/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg09_0228/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg10_0026/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg12_0261/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg12_0262/structural/structural.nii'
-    '/imaging/tc02/SD_Wordending/preprocess/meg12_0404/structural/structural.nii'};
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0183/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0185/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0186/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg09_0228/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg10_0026/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg12_0261/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg12_0262/structural/structural.nii'
+    '/imaging/mlr/users/tc02/SD_Wordending/preprocess/meg12_0404/structural/structural.nii'};
 
 control_ages = [
     71
@@ -80,7 +80,7 @@ SD_ages = [
 %% First segment all the images
 
 nrun = length(mrilist);
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_segment.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_segment.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(1, nrun);
 
@@ -106,7 +106,7 @@ end
 
 % % Calculate TIVs
 % nrun = 1;
-% jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_TIV.m'};
+% jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_TIV.m'};
 % jobs = repmat(jobfile, 1, nrun);
 % inputs = cell(1, nrun);
 % 
@@ -134,7 +134,7 @@ end
 % Now calculate the TIV and then rename all of the mc files as will be
 % overwritten by DARTEL (if not smoothed)
 nrun = 1;
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_TIV.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_TIV.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(2, nrun);
 
@@ -145,7 +145,7 @@ for crun = 1:nrun
     end
 end
 
-inputs{2,1} = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+inputs{2,1} = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
 tiv_filename = [inputs{2,1} '.csv'];
 
 TIVworkedcorrectly = zeros(1,nrun);
@@ -179,7 +179,7 @@ end
 core_imagepaths = [SDmrilist; controlmrilist(1:8)];
 
 nrun = 1; % enter the number of runs here
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_dartel.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_dartel.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(2,1);
 inputs{1,1} = cell(length(core_imagepaths),1);
@@ -215,7 +215,7 @@ indexes_to_process = setdiff(total_control_numbers,ia);
 remaining_control_imagepaths = controlmrilist(indexes_to_process);
 
 nrun = 1; % enter the number of runs here
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_templated_dartel.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_templated_dartel.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(8, nrun);
 inputs{1,1} = cell(length(remaining_control_imagepaths),1);
@@ -255,7 +255,7 @@ end
 %% Now normalise all scans
 
 nrun = length(mrilist);
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_normalise.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_normalise.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(3, nrun);
 
@@ -290,11 +290,11 @@ end
 % %split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
 % % Problem with normalisation for larger group: Temporary fix:
 % nrun = 1;
-% jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial.m'};
+% jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial.m'};
 % jobs = repmat(jobfile, 1, nrun);
 % inputs = cell(3, nrun);
 %
-% stats_folder = {'/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_full_group_vbm_greynormalised'};
+% stats_folder = {'/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/factorial_full_group_vbm_greynormalised'};
 % split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
 % split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
 %
@@ -316,17 +316,17 @@ end
 % inputs = cell(1, nrun);
 % inputs{1, 1} =  {[char(stats_folder) '/SPM.mat']};
 %
-% jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+% jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
 % jobs = repmat(jobfile, 1, nrun);
 %
 % spm_jobman('run', jobs, inputs{:});
 %
-% jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
+% jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
 % jobs = repmat(jobfile, 1, nrun);
 %
 % spm_jobman('run', jobs, inputs{:});
 %
-% jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+% jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
 % jobs = repmat(jobfile, 1, nrun);
 %
 % spm_jobman('run', jobs, inputs{:});
@@ -335,7 +335,7 @@ end
 if exist(tiv_filename,'var')
     filename =tiv_filename;
 else
-    filename = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+    filename = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
 end
 delimiter = ',';
 startRow = 2;
@@ -348,11 +348,11 @@ tiv= dataArray{2}+dataArray{3}+dataArray{4};
 
 %% Now do group stats with TIV and age file as covariates in the ANOVA
 nrun = 1;
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(6, nrun);
 
-stats_folder = {'/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_full_group_vbm_TIVnormalised_agecovaried_unsmoothedmask'};
+stats_folder = {'/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/factorial_full_group_vbm_TIVnormalised_agecovaried_unsmoothedmask'};
 split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
 split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
 
@@ -372,7 +372,7 @@ end
 try
     inputs{4, 1} = tiv;
 catch
-    tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+    tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
     filename = [tivstem '.csv'];
     delimiter = ',';
     startRow = 2;
@@ -399,28 +399,28 @@ spm_jobman('run', jobs, inputs{:});
 inputs = cell(1, nrun);
 inputs{1, 1} =  {[char(stats_folder) '/SPM.mat']};
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
 %% Now do group stats against just the subjects in the dartel with TIV file and age as covariates in the ANOVA
 nrun = 1;
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(6, nrun);
 
-stats_folder = {'/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_matched_group_vbm_TIVnormalised_agecovaried_unsmoothedmask'};
+stats_folder = {'/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/factorial_matched_group_vbm_TIVnormalised_agecovaried_unsmoothedmask'};
 split_stem_controls = regexp(controlmrilist(1:8), '/structural/', 'split');
 split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
 
@@ -442,7 +442,7 @@ end
 try
     inputs{4, 1} = [tiv(1:length(SDmrilist)); tiv(ia)];
 catch
-    tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM'];
+    tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM'];
     filename = [tivstem '.csv'];
     delimiter = ',';
     startRow = 2;
@@ -470,17 +470,17 @@ spm_jobman('run', jobs, inputs{:});
 inputs = cell(1, nrun);
 inputs{1, 1} =  {[char(stats_folder) '/SPM.mat']};
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
@@ -488,7 +488,7 @@ spm_jobman('run', jobs, inputs{:});
 
 %% Now do single subject stats with TIV file and age covariates in the ANOVA
 nrun = length(SDmrilist);
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age_singlesubj.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age_singlesubj.m'};
 jobs = repmat(jobfile, 1, 1);
 inputs = cell(6, nrun);
 
@@ -496,7 +496,7 @@ split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
 split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
 
 for crun = 1:nrun
-    inputs{1, crun} = {['/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_single_subject/patient_' num2str(crun)]};
+    inputs{1, crun} = {['/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/factorial_single_subject/patient_' num2str(crun)]};
     inputs{2, crun} = cellstr([split_stem_SD{crun}{1} '/structural/smwc1' split_stem_SD{crun}{2}]);
     inputs{3, crun} = cell(length(controlmrilist),1);
     for i = 1:length(controlmrilist)
@@ -505,7 +505,7 @@ for crun = 1:nrun
     try
         inputs{4, crun} = [tiv(crun); tiv(nrun+1:end)];
     catch
-        tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM'];
+        tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM'];
         filename = [tivstem '.csv'];
         delimiter = ',';
         startRow = 2;
@@ -542,7 +542,7 @@ for i = 1:nrun
     inputs{1,i} = {[char(inputs{1,i}) '/SPM.mat']};
 end
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
 jobs = repmat(jobfile, 1, 1);
 
 parfor crun = 1:nrun
@@ -554,7 +554,7 @@ parfor crun = 1:nrun
     end
 end
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
 jobs = repmat(jobfile, 1, 1);
 
 parfor crun = 1:nrun
@@ -566,7 +566,7 @@ parfor crun = 1:nrun
     end
 end
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
 jobs = repmat(jobfile, 1, 1);
 
 parfor crun = 1:nrun
@@ -580,7 +580,7 @@ end
 
 %% Repeat single subject stats against just the controls in the dartel with TIV file and age covariates in the ANOVA
 nrun = length(SDmrilist);
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age_singlesubj.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age_singlesubj.m'};
 jobs = repmat(jobfile, 1, 1);
 inputs = cell(6, nrun);
 
@@ -590,7 +590,7 @@ split_stem_controls = regexp(controlmrilist(1:8), '/structural/', 'split');
 split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
 load('VBM_ages.mat')
 for crun = 1:nrun
-    inputs{1, crun} = {['/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_single_subject_against_matched_controls/' split_stem_SD{crun}{2}(1:end-4)]};
+    inputs{1, crun} = {['/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/factorial_single_subject_against_matched_controls/' split_stem_SD{crun}{2}(1:end-4)]};
     inputs{2, crun} = cellstr([split_stem_SD{crun}{1} '/structural/smwc1' split_stem_SD{crun}{2}]);
     inputs{3, crun} = cell(length(controlmrilist(1:8)),1);
     for i = 1:length(controlmrilist(1:8))
@@ -599,7 +599,7 @@ for crun = 1:nrun
     try
         inputs{4, crun} = [tiv(crun); tiv(ia)];
     catch
-        tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+        tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
         filename = [tivstem '.csv'];
         delimiter = ',';
         startRow = 2;
@@ -636,7 +636,7 @@ for i = 1:nrun
     inputs{1,i} = {[char(inputs{1,i}) '/SPM.mat']};
 end
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
 jobs = repmat(jobfile, 1, 1);
 
 parfor crun = 1:nrun
@@ -648,7 +648,7 @@ parfor crun = 1:nrun
     end
 end
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
 jobs = repmat(jobfile, 1, 1);
 
 parfor crun = 1:nrun
@@ -660,7 +660,7 @@ parfor crun = 1:nrun
     end
 end
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
 jobs = repmat(jobfile, 1, 1);
 
 parfor crun = 1:nrun
@@ -684,7 +684,7 @@ end
 %% Make average brain by normalising MPRAGES to template and then averaging them
 
 nrun = length(mrilist);
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_normalise_unmodulated_unsmoothed.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_normalise_unmodulated_unsmoothed.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(3, nrun);
 
@@ -716,7 +716,7 @@ parfor crun = 1:nrun
 end
 
 nrun = 1;
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_imcalc_average.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_imcalc_average.m'};
 inputs = cell(2, nrun);
 
 split_stem = regexp(core_imagepaths, '/structural/', 'split');
@@ -747,7 +747,7 @@ end
 %% Now normalise all white matter scans
 
 nrun = length(mrilist);
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_normalise.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_normalise.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(3, nrun);
 
@@ -784,7 +784,7 @@ end
 if exist('tiv_filename','var')
     filename =tiv_filename;
 else
-    filename = ['/imaging/tc02/vespa/scans/PNFA_VBM/tom/volumes_PNFA_VBM.csv'];
+    filename = ['/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/volumes_PNFA_VBM.csv'];
 end
 delimiter = ',';
 startRow = 2;
@@ -797,11 +797,11 @@ tiv= dataArray{2}+dataArray{3}+dataArray{4};
 
 %% Now do white matter group stats with TIV and age file as covariates in the ANOVA
 nrun = 1;
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_factorial_TIV_age.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(6, nrun);
 
-stats_folder = {'/imaging/tc02/SD_Wordending/preprocess/VBM_stats/WM_factorial_full_group_vbm_TIVnormalised_agecovaried_unsmoothedmask'};
+stats_folder = {'/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/WM_factorial_full_group_vbm_TIVnormalised_agecovaried_unsmoothedmask'};
 split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
 split_stem_SD = regexp(SDmrilist, '/structural/', 'split');
 
@@ -821,7 +821,7 @@ end
 try
     inputs{4, 1} = tiv;
 catch
-    tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+    tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
     filename = [tivstem '.csv'];
     delimiter = ',';
     startRow = 2;
@@ -849,17 +849,17 @@ spm_jobman('run', jobs, inputs{:});
 inputs = cell(1, nrun);
 inputs{1, 1} =  {[char(stats_folder) '/SPM.mat']};
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_contrast.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
 
-jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
 jobs = repmat(jobfile, 1, nrun);
 
 spm_jobman('run', jobs, inputs{:});
@@ -905,11 +905,11 @@ for covariate_number = 1:4
         for mask_number = 1:2
             cd(start_directory)
             nrun = 1;
-            jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_TIV_regression.m'};
+            jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_TIV_regression.m'};
             jobs = repmat(jobfile, 1, nrun);
             
             inputs = cell(6, nrun);
-            stats_folder = {['/imaging/tc02/SD_Wordending/preprocess/VBM_stats/regression/' mask_types{mask_number} '_' tissue_types{tissue_number} '_' covariate_types{covariate_number}]};
+            stats_folder = {['/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/regression/' mask_types{mask_number} '_' tissue_types{tissue_number} '_' covariate_types{covariate_number}]};
             split_stem_controls = regexp(controlmrilist, '/structural/', 'split');
             
             inputs{1, 1} = stats_folder;
@@ -938,7 +938,7 @@ for covariate_number = 1:4
             try
                 inputs{5, 1} = tiv(1:length(SDmrilist));
             catch
-                tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+                tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
                 filename = [tivstem '.csv'];
                 delimiter = ',';
                 startRow = 2;
@@ -960,9 +960,9 @@ for covariate_number = 1:4
                 end
             else
                 if tissue_number == 1
-                    inputs{7, 1} = {'/imaging/tc02/SD_Wordending/preprocess/VBM_stats/VBM_illustration_files/GM_clusterwise_PNFA.nii'};
+                    inputs{7, 1} = {'/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/VBM_illustration_files/GM_clusterwise_PNFA.nii'};
                 elseif tissue_number == 2
-                    inputs{7, 1} = {'/imaging/tc02/SD_Wordending/preprocess/VBM_stats/VBM_illustration_files/WM_clusterwise_PNFA.nii'};
+                    inputs{7, 1} = {'/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/VBM_illustration_files/WM_clusterwise_PNFA.nii'};
                 end
             end
             
@@ -978,17 +978,17 @@ for covariate_number = 1:4
             inputs = cell(1, nrun);
             inputs{1, 1} =  {[char(stats_folder) '/SPM.mat']};
             
-            jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
+            jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_estimate.m'};
             jobs = repmat(jobfile, 1, nrun);
             
             spm_jobman('run', jobs, inputs{:});
             
-            jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_regression_contrast.m'};
+            jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_regression_contrast.m'};
             jobs = repmat(jobfile, 1, nrun);
             
             spm_jobman('run', jobs, inputs{:});
             
-            jobfile = {'/imaging/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
+            jobfile = {'/imaging/mlr/users/tc02/vespa/scans/PNFA_VBM/tom/VBM_batch_results.m'};
             jobs = repmat(jobfile, 1, nrun);
             
             spm_jobman('run', jobs, inputs{:});
@@ -1023,7 +1023,7 @@ end
 % try
 %     all_tivs = tiv;
 % catch
-%     tivstem = ['/imaging/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
+%     tivstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/volumes_PNFA_VBM.csv'];
 %     filename = [tivstem '.csv'];
 %     delimiter = ',';
 %     startRow = 2;

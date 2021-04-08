@@ -21,7 +21,7 @@ plotscalps = 0 %for working out significant time windows
 
 addpath('/group/language/data/thomascope/vespa/SPM12version/Standalone preprocessing pipeline/tc_source_stats/ojwoodford-export_fig-216b30e')
 
-pathstem = ['/imaging/tc02/SD_Wordending/preprocess/2016/stats_4sm_/combined_-100_600_' modality];
+pathstem = ['/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/stats_4sm_/combined_-100_600_' modality];
 
 Y = cell(1,length(whichbetas));
 for i = 1:length(whichbetas)

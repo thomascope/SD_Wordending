@@ -1,7 +1,7 @@
 % A clumsy hacky script to quickly extract single subject contrasts to address
 % reviewer comments
 
-load('/imaging/tc02/SD_Wordending/preprocess/2016/stats_4sm_/combined_-100_600_MEGCOMB/SPM.mat')
+load('/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/stats_4sm_/combined_-100_600_MEGCOMB/SPM.mat')
 this_contrast = 16;
 this_contrast_name = 'Pattop Group x Offset_D-S';
 %loc =   [68, 2.125, 224]

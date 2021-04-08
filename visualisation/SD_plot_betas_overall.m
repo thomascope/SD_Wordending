@@ -24,8 +24,8 @@ contrast_labels = {'Sum all standard onsets';'Sum all D deviant onsets';'Sum all
 %for this_word = 1:16
 for this_word = 14;
     
-    data{1} = spm_eeg_load('/imaging/tc02/SD_Wordending/preprocess/2016/meg08_0252/controls_weighted_grandmean.mat');
-data{2} = spm_eeg_load('/imaging/tc02/SD_Wordending/preprocess/2016/meg09_0183/patients_weighted_grandmean.mat');
+    data{1} = spm_eeg_load('/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/meg08_0252/controls_weighted_grandmean.mat');
+data{2} = spm_eeg_load('/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/meg09_0183/patients_weighted_grandmean.mat');
 
 controltoplot = rms(data{1}(data{1}.selectchannels(modality),:,this_word));
 
@@ -86,8 +86,8 @@ end
 
 %Now finish with Wd-NonWd
   
-    data{1} = spm_eeg_load('/imaging/tc02/SD_Wordending/preprocess/2016/meg08_0252/controls_weighted_grandmean.mat');
-    data{2} = spm_eeg_load('/imaging/tc02/SD_Wordending/preprocess/2016/meg09_0183/patients_weighted_grandmean.mat');
+    data{1} = spm_eeg_load('/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/meg08_0252/controls_weighted_grandmean.mat');
+    data{2} = spm_eeg_load('/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/meg09_0183/patients_weighted_grandmean.mat');
 
 controltoplot = rms(rms(data{1}(data{1}.selectchannels(modality),:,15:16),3));
 

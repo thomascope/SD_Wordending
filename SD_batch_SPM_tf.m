@@ -4,8 +4,8 @@ function SD_batch_SPM_tf(side)
 % side = 1; % 1 for whole scalp, 2 for left, 3 for right, 4 for right-left
 
 SD_subjects_and_parameters;
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016_tf/';
-source_directory = '/imaging/tc02/SD_Wordending/preprocess/2016/';
+pathstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016_tf/';
+source_directory = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/';
 
 rmpath(genpath('/imaging/local/software/spm_cbu_svn/releases/spm12_latest/'))
 addpath /imaging/local/software/spm_cbu_svn/releases/spm12_fil_r6906
@@ -35,22 +35,22 @@ mask_modality = {'MEGPLANAR' 'MEGMAG'};
 if side == 1
     
     modality = {'MEGPLANAR' 'MEGMAG'};
-    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf';
+    outputstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2018/stats_tf';
     
 elseif side == 2
     
     modality = {'left_MEGPLANAR' 'left_MEGMAG'};
-    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf_left';
+    outputstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2018/stats_tf_left';
     
 elseif side == 3
     
     modality = {'right_MEGPLANAR' 'right_MEGMAG'};
-    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf_right';
+    outputstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2018/stats_tf_right';
     
 elseif side == 4
     
     modality = {'contrast_MEGPLANAR' 'contrast_MEGMAG'};
-    outputstem = '/imaging/tc02/SD_Wordending/preprocess/2018/stats_tf_contrast';
+    outputstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2018/stats_tf_contrast';
 end
 %mskname = '/imaging/local/spm/spm8/apriori/grey.nii'; % specify in modality loop below if multiple modalities are being estimated. Don't specify if not needed
 

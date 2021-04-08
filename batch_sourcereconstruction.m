@@ -14,8 +14,8 @@
 for vprime = [1,5,6,7,2,3,8,9]
     val = vprime+10;
     %subjects_and_parameters;
-    pathstem = '/imaging/tc02/vespa/preprocess/SPM12_fullpipeline_thirdICA/';
-    %pathstem = '/imaging/tc02/vespa/preprocess/testinversion/';
+    pathstem = '/imaging/mlr/users/tc02/vespa/preprocess/SPM12_fullpipeline_thirdICA/';
+    %pathstem = '/imaging/mlr/users/tc02/vespa/preprocess/testinversion/';
 
     if vprime == 1 || vprime == 2 || vprime == 3
         invtype = 'MSPgroup'; % label for inversion
@@ -224,7 +224,7 @@ for vprime = [1,5,6,7,2,3,8,9]
     
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    outputstem = '/imaging/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
+    outputstem = '/imaging/mlr/users/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
     
     parfor im=1:length(imagetype)
         
@@ -283,7 +283,7 @@ for vprime = [1,5,6,7,2,3,8,9]
         };
     
     %inputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
+    inputstem = '/imaging/mlr/users/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
     
     parfor im=1:length(imagetype)
         
@@ -361,7 +361,7 @@ for vprime = [1,5,6,7,2,3,8,9]
     
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
+    inputstem = '/imaging/mlr/users/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
     
     parfor im=1:length(imagetype)
         
@@ -447,7 +447,7 @@ for vprime = [1,5,6,7,2,3,8,9]
         };
     
     %inputstem = '/imaging/es03/P3E1/sourceimages2/';
-    inputstem = '/imaging/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
+    inputstem = '/imaging/mlr/users/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
     
     parfor im=1:length(imagetype)
         
@@ -535,7 +535,7 @@ for vprime = [1,5,6,7,2,3,8,9]
         };
     
     %outputstem = '/imaging/es03/P3E1/sourceimages2/';
-    outputstem = '/imaging/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
+    outputstem = '/imaging/mlr/users/tc02/vespa/preprocess/SPM12_fullpipeline/scratchpad_source/';
     
     parfor s=1:length(subjects)
         s

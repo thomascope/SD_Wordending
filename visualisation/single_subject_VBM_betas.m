@@ -1,7 +1,7 @@
 % A clumsy hacky script to quickly extract single subject contrasts to address
 % reviewer comments
 
-load('/imaging/tc02/SD_Wordending/preprocess/VBM_stats/factorial_full_group_vbm_TIVnormalised_agecovaried_unsmoothedmask/SPM.mat')
+load('/imaging/mlr/users/tc02/SD_Wordending/preprocess/VBM_stats/factorial_full_group_vbm_TIVnormalised_agecovaried_unsmoothedmask/SPM.mat')
 this_contrast = 3;
 this_contrast_name = 'Controls > SD';
 %loc =   [68, 2.125, 224]

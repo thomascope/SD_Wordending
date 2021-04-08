@@ -25,8 +25,8 @@
 %% Set up global variables
 
 SD_subjects_and_parameters; 
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016_tf/';
-source_directory = '/imaging/tc02/SD_Wordending/preprocess/2016/';
+pathstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016_tf/';
+source_directory = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/';
 
 
 %% Specify preprocessing parameters
@@ -285,7 +285,7 @@ p.freqs = [30:2:90];
 p.timeres = 200; 
 p.timestep = 20; 
 p.freqres = 10; 
-source_directory = '/imaging/tc02/SD_Wordending/preprocess/2016_tf/';
+source_directory = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016_tf/';
 
 
 parfor cnt = 1:size(subjects,2)

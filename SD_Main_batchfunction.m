@@ -25,7 +25,7 @@
 %% Set up global variables
 
 SD_subjects_and_parameters; 
-pathstem = '/imaging/tc02/SD_Wordending/preprocess/2016/';
+pathstem = '/imaging/mlr/users/tc02/SD_Wordending/preprocess/2016/';
 
 %% Specify preprocessing parameters
 
